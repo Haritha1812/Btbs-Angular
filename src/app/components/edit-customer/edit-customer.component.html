@@ -1,0 +1,60 @@
+<div class="container">
+    <form novalidate [formGroup]="CustomerForm" (ngSubmit)="edit()"  style="margin-left: 400px;width: 420px;">
+    
+      <fieldset>
+        <div class="form-group">
+            <input type="hidden" class="form-control" formControlName="id" id="id"  >
+         
+           
+        </div>
+     
+        <div class="form-group">
+            <label><b>Customer Name :</b></label>
+            <input type="text" class="form-control" formControlName="name" id="name" required>
+            <div class="alert alert-danger" *ngIf="CustomerForm.get('name').hasError('required') && CustomerForm.get('name').dirty">
+            Customer Name is Required
+            </div>
+                <div class="alert alert-danger"
+                    *ngIf="CustomerForm.get('name').hasError('minlength') && CustomerForm.get('name').dirty">
+                    Customer name must be of 5 characters
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Customer Phone Number :</b></label>
+            <input type="number" class="form-control" formControlName="mobileNumber" readonly>
+          
+        </div>
+
+     
+
+
+        <div class="form-group">
+            <label><b>Customer Email :</b></label>
+            <input type="email" class="form-control" formControlName="email" readonly>
+          
+
+        </div>
+   
+        <div class="form-group">
+           
+          <label><b>Password :</b></label>
+            <input type="password" class="form-control" id="password" formControlName="password" required>
+               
+          </div>
+
+          
+         
+
+
+
+</fieldset>
+<br>
+<br>
+<div>
+      <button type="submit" class="btn btn-primary">Edit</button> &nbsp; &nbsp;
+      <button class="btn btn-dark" (click)="back()">Back</button>
+    </div> 
+    
+    </form>
+</div>

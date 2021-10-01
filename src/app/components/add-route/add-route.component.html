@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link"  (click)="add()">Route <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link"  (click)="addbus()">Bus</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link " (click)="addcus()">Customer</a>
+      </li>
+    </ul>
+ 
+  </div>
+</nav>
+
+<h1 style="color:teal;text-align: center;margin-left:30px ">Add Route Details</h1>
+<br>
+
+
+ <div *ngIf ="addroute">
+<div class="container">
+    <form novalidate [formGroup]="RouteForm" (ngSubmit)="check()"  style="margin-left: 400px;width: 420px;">
+    
+      <fieldset>
+
+        <div class="form-group">
+            <label><b>Route Name :</b></label>
+            <input type="text" class="form-control" formControlName="routeName" id="routeName" required>
+            <div class="alert alert-danger" *ngIf="RouteForm.get('routeName').hasError('required') && RouteForm.get('routeName').dirty">
+                Route Name is Required
+            </div>
+                <div class="alert alert-danger"
+                    *ngIf="RouteForm.get('routeName').hasError('minlength') && RouteForm.get('routeName').dirty">
+                    Route name must be of 5 characters
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>From Location :</b></label>
+            <input type="text" class="form-control" formControlName="fromLocation" required>
+            <div class="alert alert-danger" *ngIf="RouteForm.get('fromLocation').hasError('required') && 
+            RouteForm.get('fromLocation').dirty">
+            Route  Location is Required
+            </div>
+            <div class="alert alert-danger" *ngIf="RouteForm.get('fromLocation').hasError('minlength') &&
+            RouteForm.get('fromLocation').dirty">
+              Enter atleast 5 Characters
+            </div>
+          </div>
+
+        <div class="form-group">
+            <label><b>To Location :</b></label>
+            <input type="text" class="form-control" formControlName="toLocation" required>
+            <div class="alert alert-danger" *ngIf="RouteForm.get('toLocation').hasError('required') && 
+            RouteForm.get('toLocation').dirty">
+            Route  Location is Required
+            </div>
+            <div class="alert alert-danger" *ngIf="RouteForm.get('toLocation').hasError('minlength') &&
+            RouteForm.get('toLocation').dirty">
+              Enter atleast 5 Characters
+            </div>
+          </div>
+
+        <div class="form-group">
+            <label><b>Distance :</b></label>
+            <input type="number" class="form-control" formControlName="distance" required>
+            <div class="alert alert-danger" *ngIf="RouteForm.get('distance').hasError('required') &&
+            RouteForm.get('distance').dirty">
+            Distance is Required
+          
+            </div>
+        </div>
+
+        </fieldset>
+        <br>
+        <br>
+
+<div>
+      <button type="submit" class="btn btn-primary">Submit</button> &nbsp; &nbsp;
+      <button class="btn btn-dark" (click)="back()">Back</button>
+    </div> 
+    </form>
+
+</div>
+</div>
