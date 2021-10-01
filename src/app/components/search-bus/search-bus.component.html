@@ -1,0 +1,265 @@
+
+<!-- Search form-->
+<div *ngIf = searchbus>
+<div class="container">
+    <form novalidate [formGroup]="BusForm" (ngSubmit)="search()"  style="margin-left: 400px;width: 420px;">
+    
+      <fieldset>
+<div class="form-group">
+    <label>From Location</label>
+    <select class="form-control form-control-lg"   name="fromLocation" formControlName="fromLocation" required>
+  
+      <option selected="selected">Select</option>
+      <option *ngFor="let r of routes">{{r.fromLocation}} </option>
+      
+  </select>
+    <div class="alert alert-danger"
+        *ngIf="BusForm.get('fromLocation').hasError('fromLocation') && BusForm.get('fromLocation').dirty">
+        From Location is required
+    </div>
+  </div>
+  <div class="form-group">
+    <label>To Location</label>
+    <select class="form-control form-control-lg"   name="toLocation" formControlName="toLocation" required>
+  
+      <option selected="selected">Select</option>
+      <option *ngFor="let r of routes">{{r.toLocation}} </option>
+      
+  </select>
+    <div class="alert alert-danger"
+        *ngIf="BusForm.get('toLocation').hasError('toLocation') && BusForm.get('toLocation').dirty">
+        ToLocation is required
+    </div>
+  </div>
+  <div class="form-group">
+    <label><b>Journey Date :</b></label>
+    <div class="form-control">
+  <input matInput [matDatepicker]="picker" [min]="minDate"  placeholder="Choose a date" formControlName="date" required>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker ></mat-datepicker>
+  </div>
+  <div class="alert alert-danger" *ngIf="BusForm.get('date').hasError('required') &&
+  BusForm.get('date').dirty">
+  Journey Date  is Required
+
+  </div>
+
+  </div>
+</fieldset>
+<br>
+<br>
+
+<div>
+<button type="submit" class="btn btn-primary" >Search</button> &nbsp; &nbsp;
+<button class="btn btn-dark" (click)="back()">Back</button>
+</div> 
+</form>
+
+</div>
+</div>
+
+
+<!--------------------------------------------------------------------------------------------------------------->
+
+
+
+<div *ngIf = selectpassenger>
+  
+  <h2 align="center"> Passenger Details</h2>
+    <div class="container">
+      {{this.successmMessage}}
+  <div >
+        <form *ngFor ="let t of total;let i=index" novalidate [formGroup]="PassengerForm" (ngSubmit)="check(t)"  style="margin-left: 400px;width: 420px;">
+     
+    <h1>Seat Number : {{t}}</h1>
+          <fieldset>
+      
+            <div class="form-group">
+                <label><b>Passenger Name :</b></label>
+                <input type="text" class="form-control" formControlName="name" id="name" required>
+                <div class="alert alert-danger" *ngIf="PassengerForm.get('name').hasError('required') && PassengerForm.get('name').dirty">
+                  Passenger Name is Required
+                </div>
+                    <div class="alert alert-danger"
+                        *ngIf="PassengerForm.get('name').hasError('minlength') && PassengerForm.get('name').dirty">
+                        Passenger Name must be of 5 characters
+                    </div>
+            </div>
+    
+            <div class="form-group">
+                <label><b>Passenger Age :</b></label>
+                <input type="text" class="form-control" formControlName="age" required>
+                <div class="alert alert-danger" *ngIf="PassengerForm.get('age').hasError('required') && 
+                PassengerForm.get('age').dirty">
+                Passenger Age is Required
+                </div>
+              
+              </div>
+    
+              <div class="form-group">
+                
+                <label><b>Passenger Gender :</b></label>
+                <input type="radio" name="gender" id="male" value="male" formControlName="gender" />Male
+                <input type="radio" name="gender" id="female" value="female" formControlName="gender" />Female
+                <input type="radio" name="gender" id="trans" value="trans" formControlName="gender" /> Others
+                <div *ngIf="PassengerForm.get('gender').hasError('required') && PassengerForm.get('gender').dirty"
+                  class=" alert alert-danger">
+                  <b><font color = "red">Gender is required.</font></b>
+                </div>
+              </div>
+           
+<!--     
+            <div class="form-group">
+                <label><b>Seat Number :</b></label>
+                <input type="text" class="form-control" formControlName="seatNumber"  [(ngModel)]="total[i]"  readonly >{{total[i]}}
+               
+            </div>
+     -->
+            </fieldset>
+            <br>
+            <br>
+    
+    <div>
+          <button type="submit" class="btn btn-primary" [disabled]="submitted[t]">Add</button> &nbsp; &nbsp;
+                  
+        </div> 
+        </form>
+        <h1>Total Fare:{{totalfare}}</h1>
+    </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" (click)="bookTicket()" [disabled]="!submitted">Book Ticket</button> &nbsp; &nbsp;
+  </div>
+
+
+<!--------------------------------------------------------------------------------------------------------------->
+<div *ngIf = buslist>
+<h2 align="center"> Bus Details</h2>
+ 
+<div class="reglist">
+    <div>
+        <table class="table table-striped" >
+          <thead>
+            <tr>
+           
+                 <th>Bus Name</th>
+                <th>Bus Type</th>
+                <th>Number of Seats</th>
+               
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Fare</th>
+                <th>Route Name</th>
+                <th>From Location</th>
+                <th>To Location</th>
+                <th>Date</th>
+          </tr>
+          </thead>
+          <tbody>
+          
+            <tr *ngFor="let b of buses">
+                <td>
+                   {{b.name}}
+                 </td>
+                 <td>
+                     {{b.busType}}
+                 </td>
+             
+                 <td>
+                     {{b.numberOfSeats}}
+                 </td>
+              
+                <td>
+                    {{b.departureTime}}
+                </td>
+                <td>
+                    {{b.arrivalTime}}
+                </td>
+                <td>
+                    {{b.fare}}
+                </td>
+                <td>
+                    {{b.routeName}}
+                </td>
+                <td>
+                  {{from}}
+              </td>
+              <td>
+                {{to}}
+            </td>
+            <td>
+              {{b.date}}
+          </td>
+                <td>
+                  <button class ="btn btn-danger" (click)="showSeats(b.id)">Select Tickets</button>
+                </td>
+            
+               </tr>
+          </tbody>
+        
+     
+      <br>
+    
+</table>
+
+</div>
+</div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------->
+
+
+
+<div *ngIf =showseat>
+
+<div class="container">
+<!--        
+  <form  [formGroup]="form" (ngSubmit)="submit()">
+           
+      <div class="form-group">
+          <label for="seat">Seat:</label>
+        <div *ngFor="let s of seats;let i=index">
+            <label>
+              <input type="checkbox" id="seats"  (change)="onCheckboxChange($event)" />
+              {{s.seatName}}
+            </label>
+          </div>
+        </div>
+       
+      <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+  </form> -->
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="grid-container">
+    <div *ngFor="let s of seats; let i=index">
+      <label>
+        <!-- <div *ngIf ="s.seatStatus!=no"> -->
+         
+        <input class="sm" type="checkbox" [value]="s.seatName" (change)="onCheckboxChange($event)" [disabled]="s.seatStatus==no" />
+        {{s.seatName}}
+     
+      </label>
+    </div>
+  </div>
+    <p class="error" *ngIf="this.form.controls['checkArray'].errors?.required">
+      Seat is required, select atleast one seat to proceed.
+    </p>
+  
+    <input class="btn-success" type="submit" value="Submit">
+  </form>
+  <div style="float:left;"> 
+    <ul id="seatDescription">
+        <li style="background:url('../../assets/img/availsel.jpg') no-repeat scroll 0 0 transparent;">Available Seat</li>
+        <li style="background:url('../../assets/img/notavailable.jpg') no-repeat scroll 0 0 transparent;">Booked Seat</li>
+        <li style="background:url('../../assets/img/available1.jpg') no-repeat scroll 0 0 transparent;">Selected Seat</li>
+    </ul>
+    </div>
+</div>
+
+
+<!--------------------------------------------------------------------------------------------------------------->
+<div>
+
+
+
+
+</div>

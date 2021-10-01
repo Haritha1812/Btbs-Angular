@@ -1,0 +1,94 @@
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="container">
+    <form novalidate [formGroup]="CustomerForm" (ngSubmit)="check()"  style="margin-left: 400px;width: 420px;">
+    
+      <fieldset>
+
+        <div class="form-group">
+            <label><b>Customer Name :</b></label>
+            <input type="text" class="form-control" formControlName="name" id="name" required>
+            <div class="alert alert-danger" *ngIf="CustomerForm.get('name').hasError('required') && CustomerForm.get('name').dirty">
+            Customer Name is Required
+            </div>
+                <div class="alert alert-danger"
+                    *ngIf="CustomerForm.get('name').hasError('minlength') && CustomerForm.get('name').dirty">
+                    Customer name must be of 5 characters
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label><b>Customer Phone Number :</b></label>
+            <input type="number" class="form-control" formControlName="mobileNumber" required>
+            <div class="alert alert-danger" *ngIf="CustomerForm.get('mobileNumber').hasError('required') && 
+              CustomerForm.get('mobileNumber').dirty">
+              Customer  Phone is Required
+            </div>
+            <div class="alert alert-danger" *ngIf="CustomerForm.get('mobileNumber').hasError('minlength') &&
+            CustomerForm.get('mobileNumber').dirty">
+              Enter atleast 10 Numbers
+            </div>
+            <div *ngIf="errphnMessage">
+              <b><font color = "red">Mobile number already exists</font></b>
+            </div>
+        </div>
+
+     
+
+
+        <div class="form-group">
+            <label><b>Customer Email :</b></label>
+            <input type="email" class="form-control" formControlName="email" required>
+            <div class="alert alert-danger" *ngIf="CustomerForm.get('email').hasError('required') &&
+            CustomerForm.get('email').dirty">
+            Customer Email is Required
+          
+            </div>
+            <div *ngIf="errorMessage">
+              <b><font color = "red">Email already exists</font></b>
+            </div>
+        </div>
+
+       
+
+   
+        <div class="form-group">
+           
+          <label><b>Password :</b></label>
+            <input type="password" class="form-control" id="password" formControlName="password" [(ngModel)]="password"
+              required>
+               <div class=""
+            *ngIf="CustomerForm.get('password').hasError('required') && CustomerForm.get('password').dirty">
+            <font color="red">Password is Required</font>
+          </div>
+          </div>
+
+          <div class="form-group">
+          
+            <label><b>Confirm Password :</b></label>
+            <input type="password" class="form-control" id="confirm_password" formControlName="confirm_password"
+              [(ngModel)]="confirm_password" required>
+
+          <div class=""
+            *ngIf="CustomerForm.get('confirm_password').hasError('required') && CustomerForm.get('confirm_password').dirty">
+            <font color="red">Password is Required</font>
+          </div>
+           </div>
+
+          <div *ngIf="passwordMatch(password ,confirm_password)">
+              <b><font color = "red">Password doesn't match</font></b>
+            </div>
+
+
+
+</fieldset>
+<br>
+<br>
+<div>
+      <button type="submit" class="btn btn-primary">Submit</button> &nbsp; &nbsp;
+      <button class="btn btn-dark" (click)="back()">Back</button>
+    </div> 
+    
+    </form>
+</div>

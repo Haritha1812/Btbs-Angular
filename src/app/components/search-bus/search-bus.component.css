@@ -1,0 +1,59 @@
+.myClass{
+    color : red;
+    background-color: green;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color:wheat;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+  }
+  label.sm {
+    display: block;
+    float: left;
+    width: 25%;
+  }
+  label.sm:last-child:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0px;
+    overflow: hidden;
+  }
+  input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* Styling checkbox */
+  width: 16px;
+  height: 16px;
+  background-color:rgb(85, 135, 192)
+}
+
+input[type="checkbox"]:checked {
+  background-color: green;
+}
+input[type="checkbox"]:disabled {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* Styling checkbox */
+  width: 16px;
+  height: 16px;
+  background-color: red;
+}
+#seatDescription li{  
+  list-style: none outside none;
+  padding-left:35px;
+  height:35px;
+  float:left;
+  }

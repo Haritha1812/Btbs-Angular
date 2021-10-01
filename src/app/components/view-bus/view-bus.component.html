@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link"  (click)="add()">Route <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link"  (click)="addbuse()">Bus</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link " (click)="addcus()">Customer</a>
+        </li>
+      </ul>
+   
+    </div>
+  </nav>
+<br>
+<br>
+
+ <button (click)="addbus()" style="background-color:teal">Add Bus</button>&nbsp;&nbsp;&nbsp;&nbsp;
+ <br>
+
+<h2 align="center"> Bus Details</h2>
+ 
+<div class="reglist">  <div class="search-hero">
+    <input class="form-control" type="text" name="search" [(ngModel)]="term" autocomplete="off" placeholder="&#xF002; Start searching for a Bus by id or name or place">
+  </div>
+    <div>
+        <table class="table table-striped" >
+          <thead>
+            <tr>
+                <th>Bus Id</th>
+                 <th>Bus Name</th>
+                <th>Bus Type</th>
+                <th>Number of Seats</th>
+                <th>Date</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Fare</th>
+                <th>Route Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody>
+          
+            <tr *ngFor="let b of buses |filter:term">
+                <td>
+                    {{b.id}}
+                  </td>
+                <td>
+                   {{b.name}}
+                 </td>
+                 <td>
+                     {{b.busType}}
+                 </td>
+             
+                 <td>
+                     {{b.numberOfSeats}}
+                 </td>
+                 <td>
+                    {{b.date| date: 'dd-MM-yyyy'}}
+                </td>
+                <td>
+                    {{b.departureTime}}
+                </td>
+                <td>
+                    {{b.arrivalTime}}
+                </td>
+                <td>
+                    {{b.fare}}
+                </td>
+                <td>
+                    {{b.routeName}}
+                </td>
+                <td>
+       
+                    <button  class="btn btn-success" (click)="edit(b.id)">Edit</button>
+                </td>
+                 <td>
+       
+                    <button class ="btn btn-danger" (click)="alertConfirmation(b.id)">Delete</button>
+                </td>
+               </tr>
+          </tbody>
+        
+     
+      <br>
+    
+    <!-- </div> -->
+</table>
+<td>
+    <button  class="btn btn-primary" (click)="back()">Back</button>
+  </td>
+</div>
+</div>
