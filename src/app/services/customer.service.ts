@@ -54,7 +54,7 @@ getCustomerById(id:number) : Observable<Customer>{
   return this.http.get<Customer>(`${URL}/${id}`)
 }
 getCustomerByEmailAndPassword(email:string,password:string) : Observable<Customer>{
-  return this.http.get<Customer>(`${URL}/login/${email}/${password}`)
+  return this.http.get<Customer>(`http://localhost:8080/login/${email}/${password}`)
 
 }
 deleteCustomerId(Id:number) : Observable<Customer>{

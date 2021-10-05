@@ -82,9 +82,12 @@ if(this.busId !=-1){
     .subscribe(
       data=>{
         console.log(data);
-        console.log(data.routeId)
+        this.routes=data
+        this.routes=this.routes.data
+        this.buses.route=this.routes
         
-        this.buses.route=data
+        
+       
         console.log(this.buses)
         this.busService.updatebus(this.buses)
         .subscribe(

@@ -36,4 +36,9 @@ cusId:number
      
     this.router.navigate(['home'])
    }
+   edit()
+{
+
+  this.router.navigate(['editcus',this.cusId])
+}
 }

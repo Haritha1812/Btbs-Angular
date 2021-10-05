@@ -118,12 +118,14 @@ forgetPassword(){
       this.customers=res
       this.customers=this.customers.data
       if(this.customers!=null){
-        this.sucess();
+        this.toaster.success('Success','Password has been sent to your mail');
+        this.router.navigate(['home'])
       }
-      else{
-        this.toaster.error('Wrong!', 'Your Login details are not matched!')
-      }
+     
 
+    },error=>{
+      this.toaster.error('Wrong!', 'Your Login details are not matched!');
+      this.router.navigate(['home']);
     }
   )
  

@@ -1,3 +1,7 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -81,7 +85,7 @@
   </div>
   
   <div *ngIf = "forgetPass">
-    <form [formGroup]="ForgetForm" (ngSubmit)="forgetPassword()">
+    <form [formGroup]="ForgetForm" (ngSubmit)="forgetPassword()" style="margin-left: 300px;height: 200px;width:900px;">
         <fieldset>
             <div class="form-row">
                 <div class="form-group col-md-4"></div>
@@ -98,8 +102,8 @@
         </fieldset>
         <br>
         <span>
-        <button class="btn btn-primary" style="margin-left: 500px;">Send</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="btn btn-primary"  (click)="back()">Back</button>&nbsp;
+        <button style="margin-left: 420px;"  class="btn btn-primary"><p  class="fa fa-paper-plane">Send</p></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
     </span>
     </form>
 </div>

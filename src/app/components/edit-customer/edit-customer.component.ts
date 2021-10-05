@@ -59,7 +59,7 @@ if(this.cusId !=-1){
 this.customerService.updateCustomer(this.CustomerForm.value)
 .subscribe(res=>{
   console.log(res)
-  console.log("update route called");
+  console.log("update customer called");
   this.successAlertNotification();
   console.log("#######Customer updated successfully ");
 },
@@ -78,7 +78,7 @@ error => {
     
 successAlertNotification(){
   Swal.fire('Success', 'Customer Details Updated Successfully', 'success')
-  this.router.navigate(['receptionist'])
+  this.router.navigate(['cusop',this.cusId])
 }home(){
   
   this.router.navigate(['admin'])

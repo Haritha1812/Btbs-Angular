@@ -26,7 +26,7 @@ export class ViewBookingComponent implements OnInit {
 
   
   constructor(public formBuilder:FormBuilder,public router: Router,public toaster:ToasterService ,public activatedRoute: ActivatedRoute, public busService:BusService,public routeService:RouteService,public seatService:SeatService,public passengerService:PassengerService,public customerService:CustomerService,public bookService:BookTicketService) { }
- bookTickets:Observable<BookTicket[]>|any
+bookTickets:Observable<BookTicket[]>|any
 booking:any[]=[]
 bookings:Observable<BookTicket[]>|any
 passengers:Observable<Passenger>[]|any
@@ -62,7 +62,10 @@ this.refresh()
              
 
       }
-    })
+    },error=>{
+             this.toaster.error("No data's found")
+    }
+    )
   }
   pageChanged(event: any) {
     this.config.currentPage = event;
@@ -87,8 +90,11 @@ this.refresh()
         console.log(res);
         this.passengers=res
         this.passengers=this.passengers.data
-      })
-    })
+      }
+      
+      )
+    }
+    )
   }
   
 
