@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Toast } from 'ngx-toastr';
 import { Bus } from 'src/app/models/bus';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -23,7 +25,7 @@ email:string
 cusId?:number
 forgetPass:boolean
 login:boolean
-constructor(public formBuilder:FormBuilder, public router:Router,public customerService:CustomerService) { 
+constructor(public formBuilder:FormBuilder, public router:Router,public customerService:CustomerService,public toaster:ToasterService) { 
 }
 
 ngOnInit(): void {
@@ -52,14 +54,15 @@ customerLogin(){
         this.customer=res
         console.log(this.customer.id)
         this.cusId=this.customer.id;
-        this.successAlertNotification(this.cusId);
+        this.toaster.success("Success","Login Successful")
+        this.router.navigate(['cusop',this.cusId])
     })
     }
    
   
  
 else{
-  this.wrongLogin();
+  this.toaster.error('Wrong!', 'Your Login details are not matched!');
 }
     
 }
@@ -96,13 +99,5 @@ forgetPassword(){
 
     }
   )
-}
-wrongLogin(){
-  Swal.fire('Wrong!', 'Your Login details are not matched!', 'error')
-}
-successAlertNotification(cusId:number){
-  Swal.fire('Success', 'Login successfull', 'success')
-  console.log(this.cusId)
-  this.router.navigate(['cusop',cusId])
 }
 }

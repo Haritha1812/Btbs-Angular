@@ -4,8 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
 
+   
+declare var toastr:any
 @Component({
   selector: 'app-add-customer',
   templateUrl: './add-customer.component.html',
@@ -15,7 +18,7 @@ export class AddCustomerComponent implements OnInit {
 
 
   CustomerForm = new FormGroup({});
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute,public customerService:CustomerService) { }
+  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute,public customerService:CustomerService,public toaster:ToasterService) { }
   password :String = "";
   confirm_password :String = "";
   phnno:string
@@ -27,6 +30,7 @@ export class AddCustomerComponent implements OnInit {
   customers:Observable<Customer[]>|any
   add:boolean
   show:boolean
+  
   ngOnInit(): void {
 
     this.CustomerForm = this.formBuilder.group({
@@ -48,59 +52,7 @@ export class AddCustomerComponent implements OnInit {
    viewcus(){
      this.router.navigate(['viewcus']);
    }
-  check(){
-    this.customers = this.CustomerForm.value;
-    console.log("####" +this.customers)
-   this.cusemail=this.customers.email
-    
-    this.customerService.getCustomerByEmail(this.cusemail)
-    .subscribe(
-      response => {
-        console.log(response);
-        this.customers = response;
-      this.customers=this.customers.data
-        if(this.customers == null){
-          console.log("Check phn no claled..........")
-          this.checkPhnNumber();
-          this.errorMessage=false;
-        }
-        else{
-          
-          this.errorMessage=true;
-        }
-   
-      },
-      error => {
-          
-        console.log();
-        this.successMessage = "Customer Added successfully";
-        console.log("#######Customer added successfully ");
-      });
-     
-  }
-  checkPhnNumber(){
-    console.log("Check phn no claled..........")
-    this.customers = this.CustomerForm.value;
-    console.log("####" +this.customers)
-    this.phnno= this.customers.mobileNumber;
-    console.log("####" +this.phnno)
-    this.customerService.getCustomerByPhoneNumber(this.phnno)
-    .subscribe(
-      response => {
-        console.log(response);
-        this.customers = response;
-        this.customers=this.customers.data
-        if(this.customers == null){
-          console.log("Check phn no claled..........")
-          this.errphnMessage=false;
-          this.addCustomers();
-        }
-        else{
-          
-          this.errphnMessage =true
-        }
-      });
-  }
+  
   search(){
     this.router.navigate(['search'])
    }
@@ -110,12 +62,14 @@ export class AddCustomerComponent implements OnInit {
           response => {
             console.log(response);
             
-            this.successAlertNotification();
+            this.toaster.success( 'Customer Added!!!');
+            this.router.navigate(['home'])
             this.successMessage = "Customer Added successfully";
             console.log("#######Customer added successfully ");
           },
           error => {
-            console.log(error);
+            console.log(error.errorMessage);
+            this.toaster.error("Email already exists")
           });
   }
   back(){
@@ -134,8 +88,5 @@ passwordMatch(password:String, confirm_password:String) {
 
 
 }
-successAlertNotification(){
-  Swal.fire('Success', 'SignUp successfull', 'success')
-  this.router.navigate(['home'])
-}
+
 }

@@ -8,6 +8,7 @@ import { Seat } from 'src/app/models/seat';
 import { BusService } from 'src/app/services/bus.service';
 import { RouteService } from 'src/app/services/route.service';
 import { SeatService } from 'src/app/services/seat.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -29,7 +30,7 @@ export class AddBusComponent implements OnInit {
   minDate = new Date();
   BusForm = new FormGroup({});
   config:any
-  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService) { }
+  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService,public toaster:ToasterService) { }
 
   ngOnInit(): void {
     console.log(this.minDate);
@@ -117,7 +118,7 @@ export class AddBusComponent implements OnInit {
   }
 
   successAlertNotification() {
-    Swal.fire('Success', 'Bus Details Added Successfully', 'success')
+   this.toaster.success("Sucess","Bus Added")
     this.router.navigate(['viewbus'])
   }
 

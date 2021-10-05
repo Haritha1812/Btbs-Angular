@@ -33,10 +33,12 @@ import { ViewBookingComponent } from './components/view-booking/view-booking.com
 import { ViewbookingsCustomerComponent } from './components/viewbookings-customer/viewbookings-customer.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-
+import { ToastrModule } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.component';
 import { CustomerNavbarComponent } from './components/customer-navbar/customer-navbar.component';
+import { ToasterService } from './services/toaster.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,9 +68,13 @@ import { CustomerNavbarComponent } from './components/customer-navbar/customer-n
     MatFormFieldModule,
     MatInputModule ,BrowserAnimationsModule,NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
-    NgxMatTimepickerModule,MatCheckboxModule,Ng2SearchPipeModule,FormsModule,NgxPaginationModule
+    NgxMatTimepickerModule,MatCheckboxModule,Ng2SearchPipeModule,FormsModule,NgxPaginationModule,ToastrModule.forRoot({
+      timeOut: 3500,
+      positionClass: 'toast-bottom-center',
+      preventDuplicates: true,
+    })
   ],
-  providers: [],
+  providers: [ToasterService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

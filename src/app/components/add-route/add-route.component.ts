@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Route } from 'src/app/models/route';
 import { RouteService } from 'src/app/services/route.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,7 +21,7 @@ toLocation?:String;
   routes?:Route
   
   RouteForm = new FormGroup({});
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public routeService:RouteService) { }
+  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public routeService:RouteService,public toaster:ToasterService) { }
 
   ngOnInit(): void {
 console.log("Add route component called")
@@ -82,7 +83,8 @@ back(){
 
 
 successAlertNotification(){
-  Swal.fire('Success', 'Route Added Successfully', 'success')
+  // Swal.fire('Success', 'Route Added Successfully', 'success')
+  this.toaster.success("Route Added Successfully");
   this.router.navigate(['view'])
 }
 }

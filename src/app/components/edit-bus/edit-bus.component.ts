@@ -6,6 +6,7 @@ import { Bus } from 'src/app/models/bus';
 import { Route } from 'src/app/models/route';
 import { BusService } from 'src/app/services/bus.service';
 import { RouteService } from 'src/app/services/route.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-edit-bus',
@@ -26,7 +27,7 @@ routes:Observable<Route[]>|any
   BusForm = new FormGroup({});
   
   minDate = new Date();
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public busService:BusService , public routeService:RouteService) { }
+  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public busService:BusService , public routeService:RouteService,public toaster:ToasterService) { }
 
 
   ngOnInit(): void {
@@ -90,7 +91,8 @@ if(this.busId !=-1){
         res =>{
           console.log(res);
           this.buses=res;
-          this.successAlertNotification()
+          this.toaster.success('Updated Successfully!!')
+          this.router.navigate(['viewbus'])
         },
         error => {
               
@@ -100,11 +102,8 @@ if(this.busId !=-1){
   );
   
 })
-  }
+  
 
-    successAlertNotification(){
-      Swal.fire('Success', 'Bus details updated successfully', 'success')
-      this.router.navigate(['viewbus'])
     }
     back(){
     

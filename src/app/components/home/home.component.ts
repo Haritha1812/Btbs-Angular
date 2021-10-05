@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -30,7 +31,7 @@ cusId?:number
 forgetPass:boolean
 login:boolean
 password:string
-constructor(public formBuilder:FormBuilder, public router:Router,public customerService:CustomerService) { 
+constructor(public formBuilder:FormBuilder, public router:Router,public customerService:CustomerService,public toaster:ToasterService) { 
 }
 
 ngOnInit(): void {
@@ -50,17 +51,19 @@ customerLogin(){
   console.log(this.customerLoginForm.value)
   this.email=this.customerLoginForm.value.email
   this.password=this.customerLoginForm.value.password
+  if(this.email== "Admin" && this.password =="Admin@123")
+  {
+    //this.successMessage = "Login Successful";
+    console.log("Login Successful");
+    this.router.navigate(['admin'])
+  }
+  else{
   this.customerService.getCustomerByEmailAndPassword(this.customerLoginForm.get('email').value,this.customerLoginForm.get('password').value)
   .subscribe(res=>{
     this.customers=res
     this.customers=this.customers.data
-    if(this.email== "Admin" && this.password =="Admin@123")
-    {
-      //this.successMessage = "Login Successful";
-      console.log("Login Successful");
-      this.router.navigate(['admin'])
-    }
-    else if(this.customers){
+
+     if(this.customers){
     console.log("Login Successfully!!");
 
     this.customerService.getCustomerByEmail(this.email)
@@ -71,14 +74,14 @@ customerLogin(){
         console.log(this.customers.id)
         this.cusId=this.customers.id;
        
-        this.successAlertNotification(this.cusId);
-        
+        this.toaster.success('Success','Login Successful');
+        this.router.navigate(['cusop',this.cusId])
     })
     }
     
  
 else{
-  this.wrongLogin();
+  this.toaster.error('Wrong!', 'Your Login details are not matched!');
 }
     
 }
@@ -89,7 +92,7 @@ else{
     console.log(error, "!!!!!!!!!!!!!!!")
   },
   )
-  
+}
 }
 back(){
 this.login=true
@@ -118,24 +121,12 @@ forgetPassword(){
         this.sucess();
       }
       else{
-        this.wrong()
+        this.toaster.error('Wrong!', 'Your Login details are not matched!')
       }
 
     }
   )
  
-}
-wrongLogin(){
-  Swal.fire('Wrong!', 'Your Login details are not matched!', 'error')
-}
-wrong(){
-  Swal.fire('Wrong!', 'Your have no account registered with this email', 'error')
-  
-}
-successAlertNotification(cusId:number){
-  Swal.fire('Success', 'Login successfull', 'success')
-  console.log(this.cusId)
-  this.router.navigate(['cusop',cusId])
 }
 sucess(){
   Swal.fire('Done', 'Password has been sent to your mail', 'success')

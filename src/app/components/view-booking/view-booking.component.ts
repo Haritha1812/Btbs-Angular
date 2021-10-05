@@ -16,6 +16,7 @@ import { BookTicketService } from 'src/app/services/book-ticket.service';
 import { Observable } from 'rxjs';
 import { Passenger } from 'src/app/models/passenger';
 import Swal from 'sweetalert2';
+import { ToasterService } from 'src/app/services/toaster.service';
 @Component({
   selector: 'app-view-booking',
   templateUrl: './view-booking.component.html',
@@ -24,7 +25,7 @@ import Swal from 'sweetalert2';
 export class ViewBookingComponent implements OnInit {
 
   
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public busService:BusService,public routeService:RouteService,public seatService:SeatService,public passengerService:PassengerService,public customerService:CustomerService,public bookService:BookTicketService) { }
+  constructor(public formBuilder:FormBuilder,public router: Router,public toaster:ToasterService ,public activatedRoute: ActivatedRoute, public busService:BusService,public routeService:RouteService,public seatService:SeatService,public passengerService:PassengerService,public customerService:CustomerService,public bookService:BookTicketService) { }
  bookTickets:Observable<BookTicket[]>|any
 booking:any[]=[]
 bookings:Observable<BookTicket[]>|any
@@ -109,7 +110,8 @@ this.refresh()
          console.log(res)
          console.log("#######Booking updated successfully ");
          this.refresh();
-         this.successAlertNotification();
+         this.toaster.success('Customer Booking approved!!!');
+         this.router.navigate(['admin'])
          this.view=true
        },
        error => {
@@ -130,8 +132,5 @@ this.refresh()
     this.showpassenger=true;
   }
  
-successAlertNotification(){
-  Swal.fire('Success', 'Customer Request approved Successfully', 'success')
-  this.router.navigate(['admin'])
-}
+
 }

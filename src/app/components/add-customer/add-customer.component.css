@@ -20,3 +20,12 @@
   {
     background-color: burlywood;
   }
+  h2{
+    background-color: green;
+  }
+  .toast-custom {
+    background-color: purple;
+}
+#toast-container > .toast-custom {
+  content: "\f00C";
+}

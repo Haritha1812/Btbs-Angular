@@ -26,4 +26,8 @@ export class AdminNavbarComponent implements OnInit {
     
     this.router.navigate(['admin'])
   }
+  cus(){
+    
+    this.router.navigate(['viewcus'])
+  }
 }
