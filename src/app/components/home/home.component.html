@@ -21,13 +21,13 @@
     </div>
   </nav>
 <div *ngIf ="login">
-  <div class="loginForm">
+  <div class="loginForm"style="margin-right:100px" >
       
       <div class="main">
           <br>
           <h1 style="color:black"><b></b></h1>
           <div class="container">
-              <form [formGroup]="customerLoginForm" (ngSubmit)="customerLogin()">
+              <form [formGroup]="customerLoginForm" (ngSubmit)="customerLogin()" style="height: 200px;">
                   <fieldset>
                       <div class="form-row">
                           <div class="form-group col-md-4"></div>
@@ -57,15 +57,20 @@
                       </div>
   
                       <br>
-                      <br>
+          
                       <div class="btn-text-center" style="margin-left:400px">
-                          <button type="submit" class="btn btn-primary"
-                              [disabled] ="customerLoginForm.invalid" >Log-in</button> &nbsp;
-                          <button class="btn btn-warning" (click)="sign_up()">Sign-Up</button> &nbsp;
-                          <button class="btn btn-danger"  (click)="forget()">Forget Password</button>&nbsp;
+                          <button  style="width: 100px;"type="submit" class="btn btn-success btn"
+                              [disabled] ="customerLoginForm.invalid" >Log-in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                              <button style="width: 100px; margin-left: 40px;" type="reset" class="btn btn-info"  (click)="back()">Reset</button>&nbsp;
+                              <br>
+                              <br>
+                              
+                      </div>
+                          <a style="color: rgb(90, 151, 207);font-size: large;margin-left: 350px;" (click)="sign_up()">Don't have an account ?Sign-Up&nbsp;&nbsp;&nbsp;</a> &nbsp;
+                          <a  style="color: rgb(207, 38, 16);font-size: large;" (click)="forget()">Forget Password</a>&nbsp;
+                             
                           <br><br>
   
-                      </div>
                   </fieldset>
                   <br>
               </form>

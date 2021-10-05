@@ -1,17 +1,44 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item ">
+          <a  class="fa fa-home" (click)="home()"> &nbsp;Home &nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </li>
+          <li class="nav-item ">
+            <a class="fa fa-search"  (click)="searcht()">&nbsp;&nbsp;Search Route&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+          <li class="nav-item ">
+            <a class="fa fa-book" (click)="viewt()">&nbsp;&nbsp;View Bookings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+        </ul>
+        
+      
+  </div>
+</nav>
 <div *ngIf ="view">
-    <h2 align="center"> Booking Details</h2>
-     
+    <h2 style="font-style: italic; font-size: x-large ;margin-left: 600px;">Booking Details</h2>
+ 
     <div class="reglist">
-        <div class="search-hero">
-            <input style="width: 300px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" autocomplete="off" placeholder="&#xF002; Start searching for a Booking by id or name or place">
-          </div>
+        <div class="search-hero" style="width: 450px; margin-left: 550px;">
+    
+            <input style="width: 300px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" 
+      
+                autocomplete="off" placeholder="&#xF002;Search by  Name or route or place">
+      
+          </div><br>
         <div>
             <table class="table table-striped" >
               <thead>
                 <tr>
-                     <th>Customer Name</th>
-                    <th>Customer Mobile</th>
+                     <th> Name</th>
+                    <th> Mobile</th>
                     <th>Bus Name</th>
                     <th>Journey Date</th>
                     <th>From Location</th>
@@ -27,7 +54,7 @@
               </thead>
               <tbody>
               
-                <tr *ngFor="let b of bookings|filter:search">
+                <tr *ngFor="let b of bookings|paginate: config|filter:search">
                     <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
                   
                     <td>
@@ -55,22 +82,19 @@
                     <td>
                         {{b.billAmount}}
                     </td>
-                    <td  [ngStyle]="{'background-color':b.bookingStatus === 'Pending' ? 'red' : 'green' }">
-                        {{b.bookingStatus}}
-                    </td>
-                    <!-- <!-- <td>
-           
-                        <button  class="btn btn-success" (click)="edit(b.id)">Edit</button>
-                    </td> -->
+                    <td ><p
+                        [ngStyle]="{'color':b.bookingStatus === 'Pending' ? 'red' : 'green' }"> {{b.bookingStatus}}</p>
+                     </td>
+                   
                      <td>
            
                         <button class ="btn btn-primary" (click)="viewDetail(b.id)">View</button>
                         
-                        <button class ="btn btn-primary" (click)="download(b.id)">Download</button>
+                      
                     </td> 
                     <td>
            
-                        <button class ="btn btn-primary" (click)="download(b.id)">Download</button>
+                        <button class ="btn btn-primary" (click)="download(b.id)" [disabled]="b.bookingStatus === 'Pending'">Download</button>
                     </td> 
                     
                 <!-- </div> -->
@@ -82,12 +106,17 @@
         
         <!-- </div> -->
     </table>
-    <td>
-        <button style="margin-left: 300px;" (click)="back()" class="btn btn-primary">Back</button>
-      </td>
+    <div style="margin-left: 600px;">
+      <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
+      </div>
+      <div style="margin-left: 550px;">
+      <button style="margin-left: 300px;" (click)="back()" class="btn btn-primary">Back</button>
     </div>
     </div>
     </div>
+    </div>
+
+
     <div *ngIf ="viewid">
         <h2 align="center"> Booking Details</h2>
      
@@ -95,24 +124,21 @@
         <div>
             <table align="center">
                 
-                <tr>
-                    <th>Booking Id </th><td>:</td>
-                    <td>{{bookings.id}}</td>
-                </tr>
+               
                 <tr>
                     <th>Booking  Date </th><td>:</td>
                     <td>{{bookings.bookingDate| date: 'dd-MM-yyyy'}}</td>
                 </tr>
                 <tr>
-                    <th>Customer Name </th><td>:</td>
+                    <th> Name </th><td>:</td>
                     <td>{{bookings.customer.name}}</td>
                 </tr>
                 <tr>
-                    <th>Customer Email Id </th><td>:</td>
+                    <th> Email Id </th><td>:</td>
                     <td>{{bookings.customer.email}}</td>
                 </tr>
                 <tr>
-                    <th>Customer Phone Number</th><td>:</td>
+                    <th> Phone Number</th><td>:</td>
                     <td>{{bookings.customer.mobileNumber}}</td>
                 </tr>
               
@@ -120,10 +146,7 @@
                     <th>Bus Id </th><td>:</td>
                     <td>{{bookings.bus.id}}</td>
                 </tr>
-                <tr>
-                    <th>Bus Type </th><td>:</td>
-                    <td>{{bookings.bus.busType}}</td>
-                </tr>
+              
                 <tr>
                     <th>Bus Name </th><td>:</td>
                     <td>{{bookings.bus.name}}</td>
@@ -213,7 +236,7 @@
             </div>
             </div>
     <td>
-        <button  class="btn btn-primary" (click)="backtocus()"> Back</button>
+        <button style="margin-left: 550px;" class="btn btn-primary" (click)="backtocus()"> Back</button>
       </td>
     </div>
     </div>
@@ -223,18 +246,17 @@
 
         <div class="form-group"><br>
 
-            <div class="table-responsive" id="htmlData">
-              <table class="table-striped" border="5" BORDERCOLOR=white align="center" cellpadding="10" cellspacing="10"
-                class="table text-white">
+            <div  id="htmlData">
+              <table class="center">
                 {{errorMessage}}
-                <thead class="thead text-dark" style="background-color:white;opacity: .6;right: 12px;">
+                <thead >
                   <tr>
-                    <th style=" margin-right: 400px; color: black;"><b>Customer Name:-{{name}}</b></th>
-                    <th style=" color: black;margin-right: 600px;"><b>Amount:-{{totalAmount}}</b></th>
+                    <th class="center"><b>Customer Name:-{{name}}</b></th>
+                    <th class="center"><b>Amount:-{{totalAmount}}</b></th>
                     
                   </tr>
-                  <tr>
-                    <td>
+                  <tr class="center">
+                    <td class="center">
                       <p>Bus Name </p>
                       <p>Bus type </p>
                       <p>Journey Date</p>
@@ -246,9 +268,8 @@
                       <p>Total Amount</p>
                     </td>
                     <td>
-                        <p>{{busName}}</p>
                       <p>{{busName}}</p>
-                      <p>{{busType}}</p>
+                      <p>{{bustype}}</p>
                       <p>{{journeyDate| date: 'dd-MM-yyyy'}}</p>
                       <p>{{arrivalStation}}</p>
                       <p>{{departureStation}}</p>
@@ -261,32 +282,7 @@
                   </tr>
   
                 </thead>
-                <tr>
-                  <td>
-                    <p>Bus Name </p>
-                    <p>Bus type </p>
-                    <p>Journey Date</p>
-                    <p>Arrival Station</p>
-                    <p>Departure Station</p>
-                    <p>Arrival Time</p>
-                    <p>Departure Time </p>
-                    <p>Number Of Tickets </p>
-                    <p>Total Amount</p>
-                  </td>
-                  <td>
-                    <p>{{busName}}</p>
-                    <p>{{busType}}</p>
-                    <p>{{journeyDate}}</p>
-                    <p>{{arrivalStation}}</p>
-                    <p>{{departureStation}}</p>
-                    <p>{{arrivalTime}}</p>
-                    <p>{{departureTime}}</p>
-                    <p>{{numberOfTickets}}</p>
-                    <p>{{totalAmount}}</p>
-                  </td>
-
-                </tr>
-
+            
 
               </table>
 

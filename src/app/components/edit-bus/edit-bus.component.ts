@@ -20,7 +20,7 @@ export class EditBusComponent implements OnInit {
   successMessage?: string;
  routeName?:String;
  busType?:String;
-  buses:Bus
+  buses:Observable<Bus[]>|any
  rName:string
 routes:Observable<Route[]>|any
   BusForm = new FormGroup({});
@@ -40,6 +40,7 @@ if(this.busId !=-1){
   .subscribe(res =>{
     console.log(res);
     this.buses =res;
+    this.buses=this.buses.data
     console.log(this.buses.routeName);
     this.routeName=this.buses.routeName;
     this.busType=this.buses.busType
@@ -58,7 +59,8 @@ if(this.busId !=-1){
     this.routeService.getAllRoutes()
     .subscribe(res=>{
       console.log(res);
-      this.routes=res;
+      this.routes=res
+      this.routes=this.routes.data
     })
 
 
@@ -88,19 +90,12 @@ if(this.busId !=-1){
         res =>{
           console.log(res);
           this.buses=res;
-          
-        console.log("add route called");
-          this.successMessage = "Bus Updated successfully";
-          console.log("#######Bus Updated successfully ");
+          this.successAlertNotification()
         },
         error => {
               
-          console.log();
-          
-          this.successMessage = "Bus Updated successfully";
-          console.log("#######Bus Updated successfully ");
     
-         this.successAlertNotification()
+         
   }
   );
   
@@ -115,15 +110,5 @@ if(this.busId !=-1){
     
       this.router.navigate(['viewbus'])
       }
-      add(){
-        this.router.navigate(['view'])
-       }
-      addbus(){
-        this.router.navigate(['viewbus'])
-       }
-       addcus(){
-         
-        this.router.navigate(['viewbook'])
-       }
-    
+ 
 }

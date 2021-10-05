@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Route } from 'src/app/models/route';
 import { RouteService } from 'src/app/services/route.service';
 import Swal from 'sweetalert2';
@@ -17,7 +18,8 @@ export class EditRouteComponent implements OnInit {
   successMessage?: string;
  fromLocation?:String;
  toLocation?:String;
-  routes:Route
+
+ routes:Observable<Route[]>|any
   RouteForm = new FormGroup({});
   constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public routeService:RouteService) { }
 
@@ -29,7 +31,7 @@ if(this.routeId !=-1){
   this.routeService.getRouteById(this.routeId)
   .subscribe(res =>{
     console.log(res);
-    this.routes =res;
+    this.routes =res;this.routes=this.routes.data
  
     this.RouteForm = this.formBuilder.group({
       routeId:[this.routes.routeId, [Validators.required]],
@@ -51,18 +53,13 @@ if(this.routeId !=-1){
 this.routeService.updateroute(this.RouteForm.value)
 .subscribe(res=>{
   console.log(res)
-  console.log("update route called");
+  this.successAlertNotification()
   this.successMessage = "Route Updated successfully";
   console.log("#######Route updated successfully ");
 },
 error => {
       
-  console.log();
   
-  this.successMessage = "Route Updated successfully";
-  console.log("#######Route updated successfully ");
-  
-this.successAlertNotification()
 }
 );
 
@@ -75,5 +72,6 @@ successAlertNotification(){
   Swal.fire('Success', 'Route details updated successfully', 'success')
   this.router.navigate(['view'])
 }
+
 }
 

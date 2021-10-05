@@ -50,7 +50,7 @@ PassengerForm = new FormGroup({});
 form = new FormGroup({});
 pipe = new DatePipe('en-US');
 cusId?:number
-customer?:Customer
+customer: Observable<Customer>|any
 successMessage:string
 actions:FormGroup
 isdisabled:boolean;
@@ -87,6 +87,7 @@ no="No"
     .subscribe(res=>{
       console.log(res);
       this.routes=res;
+      this.routes=this.routes.data
       this.searchbus = true
     })
 
@@ -94,6 +95,7 @@ no="No"
     .subscribe(res=>{
       console.log(res);
       this.customer=res
+      this.customer=this.customer.data
     })
   }
 
@@ -103,6 +105,7 @@ no="No"
     .subscribe(res=>{
       console.log(res)
       this.seats=res
+      this.seats =this.seats.data
       this.showseat=true
       this.s=this.seats
       console.log(this.s)
@@ -126,21 +129,23 @@ no="No"
     this.passenger.bus=this.s[0].bus
     console.log(this.passenger)
       console.log(this.PassengerForm.value)
+
       this.seatService.updateStatus(this.sName,this.s[0].bus.id)
       .subscribe(res=>{
         console.log(res)
       })
-      this.passengerService.addPassenger(this.passenger)
+      this.passengerService.addPassenger(this.PassengerForm.value)
       .subscribe(res=>{
         console.log(res)
+           
+        console.log();
+        this.successMessage = "Passenger Added successfully"+this.passenger.name;
+        console.log("#######Passenger added successfully ");
+    
       },
       
           error => {
-              
-            console.log();
-            this.successMessage = "Passenger Added successfully"+this.passenger.name;
-            console.log("#######Passenger added successfully ");
-        
+           
           });
       
     }
@@ -158,6 +163,7 @@ no="No"
    .subscribe(res=>{
      console.log(res)
      this.buses=res
+     this.buses=this.buses.data
      this.from=this.buses[0].route.fromLocation
      this.to=this.buses[0].route.toLocation
      console.log(this.buses[0].route.fromLocation)
@@ -175,6 +181,7 @@ no="No"
     .subscribe(res=>{
       console.log(res)
       this.customer=res;
+      this.customer=this.customer.data
      console.log(this.s[0].bus.id);
      this.buses =this.s[0].bus
      console.log(this.buses)
@@ -188,16 +195,17 @@ no="No"
       this.bookService.addTicket(this.booktickets)
       .subscribe(res=>{
         console.log(res);
+        console.log();
+            this.successMessage = "Booking Added successfully"+this.passenger.name;
+            console.log("#######Booking added successfully ");
+            this.successAlertNotification();
+            this.router.navigate(['viewcusbook',this.cusId])
       },
       
       
           error => {
               
-            console.log();
-            this.successMessage = "Booking Added successfully"+this.passenger.name;
-            console.log("#######Booking added successfully ");
-            this.successAlertNotification();
-            this.router.navigate(['viewcusbook',this.cusId])
+            
           });
       
     })
@@ -265,8 +273,18 @@ checkCheckBoxvalue(event){
   console.log(event.target.checked)
 }
 back(){
-
+  this.router.navigate(['cusop',this.cusId])
 }
-
+searcht(){
+  this.router.navigate(['search',this.cusId])
+ }
+ view(){
+   
+  this.router.navigate(['viewcusbook',this.cusId])
+ }
+ home(){
+   
+  this.router.navigate(['cusop',this.cusId])
+ }
 }
 

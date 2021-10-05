@@ -18,6 +18,7 @@ export class AddRouteComponent implements OnInit {
 fromLocation?:String;
 toLocation?:String;
   routes?:Route
+  
   RouteForm = new FormGroup({});
   constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public routeService:RouteService) { }
 
@@ -41,8 +42,10 @@ check(){
     this.routeService.getRouteByLocation(this.fromLocation,this.toLocation)
     .subscribe(
       res=>{
-        console.log(res);
-        if(res==null){
+        console.log(res[0]);
+       
+        this.routes= res[0]
+        if(this.routes==null){
             this.addRoute();
             
         }
@@ -57,24 +60,19 @@ check(){
 addRoute(){
   
   console.log("add route called");
-this.routeService.addRoute(this.RouteForm.value)
+   this.routeService.addRoute(this.RouteForm.value)
 
 .subscribe(
   res =>{
     console.log(res);
     this.routes=res;
     
-  console.log("add route called");
-    this.successMessage = "Route Added successfully";
+    this.successAlertNotification()
     console.log("#######Route added successfully ");
   },
   error => {
-        
-    console.log();
+    console.log(error)    
     
-    this.successMessage = "Route Added successfully";
-    console.log("#######Route added successfully ");
-    this.successAlertNotification()
   }
 );
 }
@@ -87,15 +85,4 @@ successAlertNotification(){
   Swal.fire('Success', 'Route Added Successfully', 'success')
   this.router.navigate(['view'])
 }
-add(){
-  this.router.navigate(['view'])
- }
-addbus(){
-  this.router.navigate(['viewbus'])
- }
- addcus(){
-   
-  this.router.navigate(['viewbook'])
- }
-
 }

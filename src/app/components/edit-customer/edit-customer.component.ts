@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import Swal from 'sweetalert2';
@@ -17,7 +18,7 @@ password:string
   CustomerForm = new FormGroup({});
   constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public customerService:CustomerService) { }
 
-  customers:Customer
+  customers:Observable<Customer[]>|any
   ngOnInit(): void {
     this.customers = new Customer();
     this.cusId=this.activatedRoute.snapshot.params['id'];
@@ -27,6 +28,7 @@ if(this.cusId !=-1){
   .subscribe(res =>{
     console.log(res);
     this.customers =res;
+    this.customers=this.customers.data
  
     this.CustomerForm = this.formBuilder.group({
       name : [this.customers.name, [Validators.required,Validators.minLength(5)]],
@@ -40,7 +42,16 @@ if(this.cusId !=-1){
   })
 
   })}}
-
+  add(){
+    this.router.navigate(['view'])
+   }
+  addbus(){
+    this.router.navigate(['viewbus'])
+   }
+   addcus(){
+     
+    this.router.navigate(['viewbook'])
+   }
   edit(){
     
   console.log("updateroutes called")
@@ -49,16 +60,13 @@ this.customerService.updateCustomer(this.CustomerForm.value)
 .subscribe(res=>{
   console.log(res)
   console.log("update route called");
-  this.successMessage = "Customer Updated successfully";
+  this.successAlertNotification();
   console.log("#######Customer updated successfully ");
 },
 error => {
       
-  console.log();
+  console.log(error);
   
-  this.successMessage = "Customer Updated successfully";
-  this.successAlertNotification();
-  console.log("#######Customer updated successfully ");
 }
 );
 
@@ -69,8 +77,11 @@ error => {
   }
     
 successAlertNotification(){
-  Swal.fire('Success', 'Receptionist Details Updated Successfully', 'success')
+  Swal.fire('Success', 'Customer Details Updated Successfully', 'success')
   this.router.navigate(['receptionist'])
+}home(){
+  
+  this.router.navigate(['admin'])
 }
   }
 

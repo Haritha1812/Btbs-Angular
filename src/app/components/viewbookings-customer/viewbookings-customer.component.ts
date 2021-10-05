@@ -34,7 +34,8 @@ showpassenger:boolean
 view:boolean
 viewid:boolean
 cusId?:number
-book?:BookTicket
+config:any
+book:Observable<BookTicket[]>|any
 busName :string
 bustype :string
 journeyDate:Date
@@ -54,15 +55,26 @@ search:any
     .subscribe(res=>{
       console.log(res)
       this.bookings=res
-     
+      this.bookings=this.bookings.data
+   
+      this.config = {​
+  itemsPerPage:3,
+  currentPage:1,
+  totalItems:this.bookings.count
+        }​;
+  
      console.log(this.bookings[0].bus.id)
      console.log(this.cusId)
       this.passengerService.getByBusidandcusid(this.bookings[0].bus.id,this.cusId)
       .subscribe(res=>{
         console.log(res);
         this.passengers=res
+        this.passengers=this.passengers.data
       })
     })
+  }
+  pageChanged(event: any) {
+    this.config.currentPage = event;
   }
   @ViewChild('htmlData') htmlData:ElementRef;
   USERS = [
@@ -86,6 +98,7 @@ search:any
     .subscribe(res=>{
       console.log(res);
       this.passengers=res
+      this.passengers=this.passengers.data
       this.showpassenger=true
     })
   }
@@ -95,12 +108,16 @@ search:any
     .subscribe(res=>{
       console.log(res)
       this.bookings=res
+      this.bookings=this.bookings.data
+      console.log(this.bookings)
       this.viewid=true
       this.view=false
       this.passengerService.getByBusidandcusid(this.bookings.bus.id,this.bookings.customer.id)
       .subscribe(res=>{
         console.log(res);
         this.passengers=res
+        this.passengers=this.passengers.data
+      
       })
     })
   }
@@ -122,10 +139,13 @@ this.bookService.getById(id)
   
   console.log(res)
   this.book =res;
+  this.book=this.book.data
   this.passengerService.getByBusidandcusid(this.book.bus.id,this.book.customer.id)
   .subscribe(res=>{
     console.log(res);
     this.passengers=res
+    
+    this.passengers=this.passengers.data
     this.numberOfTickets=this.passengers.length
   })
   this.busName=this.book.bus.name
@@ -158,5 +178,16 @@ public openPDF():void {
       PDF.save('Invoice.pdf');
   });
 }
+searcht(){
+  this.router.navigate(['search',this.cusId])
+ }
+ viewt(){
+   
+  this.router.navigate(['viewcusbook',this.cusId])
+ }
+ home(){
+   
+  this.router.navigate(['cusop',this.cusId])
+ }
 
   }

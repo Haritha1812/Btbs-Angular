@@ -31,6 +31,8 @@ bookings:Observable<BookTicket[]>|any
 passengers:Observable<Passenger>[]|any
 viewid:boolean
 view:boolean
+search:any
+config: any
 showpassenger:boolean
   ngOnInit(): void {
 this.refresh()
@@ -42,6 +44,12 @@ this.refresh()
     .subscribe(res=>{
       console.log(res)
       this.bookTickets=res
+      this.bookTickets=this.bookTickets.data
+      this.config = {
+        itemsPerPage: 3,
+        currentPage: 1,
+        totalItems: this.bookTickets.count
+      };
       this.view=true
       var j=0;
       for(var i=0;i<this.bookTickets.length;i++){
@@ -55,34 +63,33 @@ this.refresh()
       }
     })
   }
+  pageChanged(event: any) {
+    this.config.currentPage = event;
+  }
+
   viewPassenger(){
   
   }
   viewDetails(id:number){
+    this.viewid=true
+      this.view=false
     console.log(id)
     this.bookService.getById(id)
     .subscribe(res=>{
       console.log(res)
       this.bookings=res
+      this.bookings=this.bookings.data
       this.viewid=true
       this.view=false
       this.passengerService.getByBusidandcusid(this.bookings.bus.id,this.bookings.customer.id)
       .subscribe(res=>{
         console.log(res);
         this.passengers=res
+        this.passengers=this.passengers.data
       })
     })
   }
-  add(){
-    this.router.navigate(['view'])
-   }
-  addbus(){
-    this.router.navigate(['viewbus'])
-   }
-   addcus(){
-     
-    this.router.navigate(['viewbook'])
-   }
+  
 
   backadmin(){
     
@@ -100,14 +107,15 @@ this.refresh()
        this.bookService.updateStatus(id,bid,cid)
        .subscribe(res=>{
          console.log(res)
+         console.log("#######Booking updated successfully ");
+         this.refresh();
+         this.successAlertNotification();
+         this.view=true
        },
        error => {
               
-        
-        console.log("#######Booking updated successfully ");
-          this.refresh();
-          this.successAlertNotification();
-          this.view=true
+        console.log(error)
+       
       }
        )
   }
@@ -121,7 +129,7 @@ this.refresh()
   viewPass(){
     this.showpassenger=true;
   }
-  
+ 
 successAlertNotification(){
   Swal.fire('Success', 'Customer Request approved Successfully', 'success')
   this.router.navigate(['admin'])

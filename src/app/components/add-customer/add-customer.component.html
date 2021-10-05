@@ -1,7 +1,8 @@
+
 <br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<div class="container">
+<div class="container" style="margin-right:300px">
     <form novalidate [formGroup]="CustomerForm" (ngSubmit)="check()"  style="margin-left: 400px;width: 420px;">
     
       <fieldset>
@@ -84,11 +85,13 @@
 
 </fieldset>
 <br>
-<br>
-<div>
-      <button type="submit" class="btn btn-primary">Submit</button> &nbsp; &nbsp;
+
+<div style="margin-left:70px;">
+      <button type="submit" class="btn btn-primary">Submit  &nbsp; &nbsp; &nbsp;</button> &nbsp; &nbsp;
       <button class="btn btn-dark" (click)="back()">Back</button>
     </div> 
-    
+    <br>
+    <a style="color: rgb(14, 204, 30);font-size: large;margin-left:20px;" (click)="login()">Already have an account ?Login&nbsp;&nbsp;&nbsp;</a> &nbsp;
+                        
     </form>
 </div>

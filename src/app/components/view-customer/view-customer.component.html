@@ -1,35 +1,20 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link"  (click)="add()">Route <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link"  (click)="addbus()">Bus</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link " (click)="addcus()">Customer Bookings</a>
-        </li>
-       
-      </ul>
-   
-    </div>
-  </nav>
+
+<app-admin-navbar></app-admin-navbar>
+
 <div *ngIf=show>
-
+<br>
 <div class="reglist">
-    <div class="search-hero">
+  <br>
+  <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 600px;">Customer Details</h2>
 
-        <input style="width: 300px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" 
 
-            autocomplete="off" placeholder="&#xF002;Search by Employees Name or Mobileno or Email or Salary">
+    <div class="search-hero" style="width:550px; margin-left: 550px;">
 
-      </div><br><br>
+        <input style="width: 500px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" 
+
+            autocomplete="off" placeholder="&#xF002;Search by Customer Name or Mobileno or Email">
+
+      </div><br>
         <table class="table table-striped" >
           <thead>
             <tr>

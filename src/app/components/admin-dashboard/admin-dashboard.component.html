@@ -1,19 +1,29 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link"  (click)="add()">Route <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link"  (click)="addbus()">Bus</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link " (click)="addcus()">Customer</a>
-        </li>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+         
+          <li class="nav-item ">
+            <a class="fa fa-road"  (click)="add()">&nbsp;Route &nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+          <li class="nav-item ">
+            <a class="fa fa-bus"  (click)="addbus()">&nbsp;Bus&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+          <li class="nav-item ">
+            <a  class="fa fa-book" (click)="addcus()">&nbsp;Customer Bookings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+        </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="nav-item "><a style="color: white;"  (click)="logout()"><span 
+          class="fa fa-power-off" ></span> Logout</a></li>
       </ul>
    
     </div>

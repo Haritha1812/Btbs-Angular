@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class ViewRouteComponent implements OnInit {
 
 show?:boolean
+config:any
 successMessage?:string
 routes:Observable<Route[]>|any
 search:any
@@ -26,6 +27,9 @@ this.viewAllroutes()
   }
   addroute(){
     this.router.navigate(['routeadd'])
+  }home(){
+  
+    this.router.navigate(['admin'])
   }
   back(){
     this.router.navigate(['admin'])
@@ -36,7 +40,13 @@ this.viewAllroutes()
       res=>{
         console.log(res);
         this.routes=res;
+        this.routes = this.routes.data
         this.show=true;
+        this.config = {​
+          itemsPerPage:3,
+          currentPage:1,
+          totalItems:this.routes.count
+                }​;
       }
    
     )
@@ -52,18 +62,16 @@ this.viewAllroutes()
       console.log(response);
       console.log("#######deleted successfully ");
      
+      this.refresh();
       this.viewAllroutes();
     
       
     
     },
     error => {
-      this.refresh();
-      this.viewAllroutes();
-     
+      
       console.log(error);
     });
-    this.successMessage = routeId +" :   successfully deleted"
   }
   refresh(){
     this.routeService.getAllRoutes().subscribe(
@@ -74,16 +82,10 @@ this.viewAllroutes()
       }
     )
 }
-add(){
-  this.router.navigate(['view'])
- }
-addbus(){
-  this.router.navigate(['viewbus'])
- }
- addcus(){
-   
-  this.router.navigate(['viewbook'])
- }
+pageChanged(event: any) {​
+  this.config.currentPage = event;
+    }​
+  
 
 alertConfirmation(routeId : number){
   Swal.fire({

@@ -32,4 +32,8 @@ cusId:number
      
     this.router.navigate(['viewcusbook',this.cusId])
    }
+   logout(){
+     
+    this.router.navigate(['home'])
+   }
 }

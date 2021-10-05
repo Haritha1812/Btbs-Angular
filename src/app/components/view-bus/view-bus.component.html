@@ -1,36 +1,22 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link"  (click)="add()">Route <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link"  (click)="addbuse()">Bus</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link " (click)="addcus()">Customer</a>
-        </li>
-      </ul>
-   
-    </div>
-  </nav>
+
+<app-admin-navbar></app-admin-navbar>
+
 <br>
 <br>
 
- <button (click)="addbus()" style="background-color:teal">Add Bus</button>&nbsp;&nbsp;&nbsp;&nbsp;
+ <button (click)="addbus()"class="btn btn-info">Add Bus</button>&nbsp;&nbsp;&nbsp;&nbsp;
  <br>
 
-<h2 align="center"> Bus Details</h2>
+ <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 600px;">Bus Details</h2>
  
-<div class="reglist">  <div class="search-hero">
-    <input class="form-control" type="text" name="search" [(ngModel)]="term" autocomplete="off" placeholder="&#xF002; Start searching for a Bus by id or name or place">
-  </div>
+<div class="reglist">  
+  <div class="search-hero" style="width: 500px; margin-left: 550px;">
+
+      <input style="width: 500px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" 
+
+          autocomplete="off" placeholder="&#xF002;Search by Bus Name or route or place">
+
+    </div><br>
     <div>
         <table class="table table-striped" >
           <thead>
@@ -50,7 +36,7 @@
           </thead>
           <tbody>
           
-            <tr *ngFor="let b of buses |filter:term">
+            <tr *ngFor="let b of buses|paginate:config|filter:search">
                 <td>
                     {{b.id}}
                   </td>
@@ -95,6 +81,9 @@
     
     <!-- </div> -->
 </table>
+<div style="margin-left: 600px;">
+  <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
+  </div>
 <td>
     <button  class="btn btn-primary" (click)="back()">Back</button>
   </td>

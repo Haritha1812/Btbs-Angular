@@ -36,7 +36,7 @@ const routes: Routes = [
   {path:'viewbook' , component:ViewBookingComponent },
   {path:'viewcusbook/:cusId' , component:ViewbookingsCustomerComponent },
   
-  {path:'admin' , component:AdminDashboardComponent },
+  {path:'admin', component:AdminDashboardComponent },
 ];
 
 @NgModule({

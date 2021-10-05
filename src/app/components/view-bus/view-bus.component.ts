@@ -14,7 +14,8 @@ import Swal from 'sweetalert2';
 export class ViewBusComponent implements OnInit {
 
   constructor(public router: Router,public activatedRoute: ActivatedRoute, public busService:BusService) { }
-term:any
+search:any
+config:any
   buses:Observable<Bus[]>|any
   ngOnInit(): void {
     this.viewAllbuses();
@@ -22,16 +23,7 @@ term:any
   edit(busId:number){
     this.router.navigate(['editbus',busId])
   }
-  add(){
-    this.router.navigate(['view'])
-   }
-  addbuse(){
-    this.router.navigate(['viewbus'])
-   }
-   addcus(){
-     
-    this.router.navigate(['viewbook'])
-   }
+ 
 
 
   viewAllbuses(){
@@ -40,7 +32,12 @@ term:any
       res=>{
         console.log(res);
         this.buses=res;
-      
+        this.buses=this.buses.data
+        this.config = {​
+          itemsPerPage:3,
+          currentPage:1,
+          totalItems:this.buses.count
+                }​;
       }
    
     )
@@ -50,7 +47,7 @@ term:any
     this.router.navigate(['admin'])
     }
 
-   
+    
     
   delete(busId : number){
     this.busService.deletebus(busId)
@@ -108,4 +105,8 @@ alertConfirmation(busid : number){
 addbus(){
   this.router.navigate(['addbus'])
 }
+    pageChanged(event: any) {​
+this.config.currentPage = event;
+  }​
+
 }

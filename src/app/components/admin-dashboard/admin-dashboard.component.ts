@@ -26,5 +26,8 @@ export class AdminDashboardComponent implements OnInit {
      
     this.router.navigate(['viewbook'])
    }
-
+   logout(){
+     
+    this.router.navigate(['home'])
+   }
 }

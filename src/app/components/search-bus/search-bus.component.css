@@ -57,3 +57,28 @@ input[type="checkbox"]:disabled {
   height:35px;
   float:left;
   }
+    
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 21px;
+  }
+  
+  li a:hover {
+    color:orange
+  }
+  .bg
+  {
+    background-color: burlywood;
+  }
+  label{
+    color: red;
+  }

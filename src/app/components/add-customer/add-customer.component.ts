@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import Swal from 'sweetalert2';
@@ -23,7 +24,7 @@ export class AddCustomerComponent implements OnInit {
   errmessage:string
   errphnMessage?:boolean
   successMessage?: string;
-  customers:Customer
+  customers:Observable<Customer[]>|any
   add:boolean
   show:boolean
   ngOnInit(): void {
@@ -57,8 +58,8 @@ export class AddCustomerComponent implements OnInit {
       response => {
         console.log(response);
         this.customers = response;
-      
-        if(response == null){
+      this.customers=this.customers.data
+        if(this.customers == null){
           console.log("Check phn no claled..........")
           this.checkPhnNumber();
           this.errorMessage=false;
@@ -88,37 +89,33 @@ export class AddCustomerComponent implements OnInit {
       response => {
         console.log(response);
         this.customers = response;
-        if(response == null){
+        this.customers=this.customers.data
+        if(this.customers == null){
           console.log("Check phn no claled..........")
           this.errphnMessage=false;
-          this.addReceptionist();
+          this.addCustomers();
         }
         else{
           
           this.errphnMessage =true
         }
-      },
-      error => {
-          
-        console.log();
-        this.successMessage = "Customer Added successfully";
-        console.log("#######Customer added successfully ");
       });
   }
   search(){
     this.router.navigate(['search'])
    }
-  addReceptionist(){
+   addCustomers(){
     this.customerService.addCustomer(this.CustomerForm.value)
         .subscribe(
           response => {
             console.log(response);
-          },
-          error => {
-            console.log();
+            
             this.successAlertNotification();
             this.successMessage = "Customer Added successfully";
             console.log("#######Customer added successfully ");
+          },
+          error => {
+            console.log(error);
           });
   }
   back(){
@@ -127,7 +124,7 @@ export class AddCustomerComponent implements OnInit {
     }
     login(){
     
-      this.router.navigate(['login'])
+      this.router.navigate(['home'])
       }
 passwordMatch(password:String, confirm_password:String) {
   if(password===confirm_password){
@@ -139,6 +136,6 @@ passwordMatch(password:String, confirm_password:String) {
 }
 successAlertNotification(){
   Swal.fire('Success', 'SignUp successfull', 'success')
-  this.router.navigate([''])
+  this.router.navigate(['home'])
 }
 }

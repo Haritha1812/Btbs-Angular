@@ -1,13 +1,38 @@
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item ">
+          <a  class="fa fa-home" (click)="home()">&nbsp;&nbsp;Home &nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </li>
+          <li class="nav-item ">
+            <a class="fa fa-search"  (click)="searcht()">&nbsp;&nbsp;Search Route&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+          <li class="nav-item ">
+            <a class="fa fa-book" (click)="view()">&nbsp;&nbsp;View Bookings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </li>
+        </ul>
+        
+      
+  </div>
+</nav>
 <!-- Search form-->
 <div *ngIf = searchbus>
+  <br>
 <div class="container">
-    <form novalidate [formGroup]="BusForm" (ngSubmit)="search()"  style="margin-left: 400px;width: 420px;">
+    <form novalidate [formGroup]="BusForm" (ngSubmit)="search()" style="margin-left: 300px;width: 420px;">
     
       <fieldset>
 <div class="form-group">
-    <label>From Location</label>
-    <select class="form-control form-control-lg"   name="fromLocation" formControlName="fromLocation" required>
+    <b>From Location</b><label>*</label>
+    <select class="form-control"   name="fromLocation" formControlName="fromLocation" required>
   
       <option selected="selected">Select</option>
       <option *ngFor="let r of routes">{{r.fromLocation}} </option>
@@ -19,8 +44,8 @@
     </div>
   </div>
   <div class="form-group">
-    <label>To Location</label>
-    <select class="form-control form-control-lg"   name="toLocation" formControlName="toLocation" required>
+    <b>To Location</b><label> *</label>
+    <select class="form-control "   name="toLocation" formControlName="toLocation" required>
   
       <option selected="selected">Select</option>
       <option *ngFor="let r of routes">{{r.toLocation}} </option>
@@ -32,26 +57,22 @@
     </div>
   </div>
   <div class="form-group">
-    <label><b>Journey Date :</b></label>
-    <div class="form-control">
-  <input matInput [matDatepicker]="picker" [min]="minDate"  placeholder="Choose a date" formControlName="date" required>
+    <b>Journey Date</b><label> *</label>
+    <br>
+  <input  [matDatepicker]="picker"class="form-control" [min]="minDate"  formControlName="date" required>
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker ></mat-datepicker>
   </div>
   <div class="alert alert-danger" *ngIf="BusForm.get('date').hasError('required') &&
   BusForm.get('date').dirty">
   Journey Date  is Required
-
-  </div>
-
   </div>
 </fieldset>
-<br>
-<br>
 
-<div>
-<button type="submit" class="btn btn-primary" >Search</button> &nbsp; &nbsp;
-<button class="btn btn-dark" (click)="back()">Back</button>
+
+<div style="margin-left: 100px;">
+  <button type="submit" class="btn btn-primary" [disabled]="BusForm.invalid">Search</button> &nbsp; &nbsp;
+  <button class="btn btn-dark" (click)="back()">Back</button>
 </div> 
 </form>
 
@@ -68,14 +89,16 @@
   <h2 align="center"> Passenger Details</h2>
     <div class="container">
       {{this.successmMessage}}
+      <br>
+      <h1 style="margin-left: 500px;color: rgb(182, 62, 62);">Total Fare :{{totalfare}}</h1>
   <div >
-        <form *ngFor ="let t of total;let i=index" novalidate [formGroup]="PassengerForm" (ngSubmit)="check(t)"  style="margin-left: 400px;width: 420px;">
+        <form *ngFor ="let t of total;let i=index" novalidate [formGroup]="PassengerForm" (ngSubmit)="check(t)"  style="margin-left: 350px;width: 420px;">
      
     <h1>Seat Number : {{t}}</h1>
           <fieldset>
       
             <div class="form-group">
-                <label><b>Passenger Name :</b></label>
+                <b>Passenger Name </b><label>*</label>
                 <input type="text" class="form-control" formControlName="name" id="name" required>
                 <div class="alert alert-danger" *ngIf="PassengerForm.get('name').hasError('required') && PassengerForm.get('name').dirty">
                   Passenger Name is Required
@@ -87,7 +110,7 @@
             </div>
     
             <div class="form-group">
-                <label><b>Passenger Age :</b></label>
+                <b>Passenger Age </b><label>*</label>
                 <input type="text" class="form-control" formControlName="age" required>
                 <div class="alert alert-danger" *ngIf="PassengerForm.get('age').hasError('required') && 
                 PassengerForm.get('age').dirty">
@@ -98,7 +121,7 @@
     
               <div class="form-group">
                 
-                <label><b>Passenger Gender :</b></label>
+                <b>Passenger Gender </b><label>*</label>
                 <input type="radio" name="gender" id="male" value="male" formControlName="gender" />Male
                 <input type="radio" name="gender" id="female" value="female" formControlName="gender" />Female
                 <input type="radio" name="gender" id="trans" value="trans" formControlName="gender" /> Others
@@ -108,33 +131,29 @@
                 </div>
               </div>
            
-<!--     
-            <div class="form-group">
-                <label><b>Seat Number :</b></label>
-                <input type="text" class="form-control" formControlName="seatNumber"  [(ngModel)]="total[i]"  readonly >{{total[i]}}
-               
-            </div>
-     -->
+
             </fieldset>
             <br>
             <br>
     
-    <div>
+    <div style="margin-left: 150px;">
           <button type="submit" class="btn btn-primary" [disabled]="submitted[t]">Add</button> &nbsp; &nbsp;
                   
         </div> 
         </form>
-        <h1>Total Fare:{{totalfare}}</h1>
+        <br>
+        
     </div>
-    </div>
+    </div >
     
-    <button type="submit" class="btn btn-primary" (click)="bookTicket()" [disabled]="!submitted">Book Ticket</button> &nbsp; &nbsp;
+    <button style="margin-left: 700px;" type="submit" class="btn btn-success" (click)="bookTicket()" [disabled]="">Book Ticket</button> &nbsp; &nbsp;
   </div>
 
 
 <!--------------------------------------------------------------------------------------------------------------->
 <div *ngIf = buslist>
-<h2 align="center"> Bus Details</h2>
+<br>
+  <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 600px;">Bus Details</h2>
  
 <div class="reglist">
     <div>
@@ -153,6 +172,7 @@
                 <th>From Location</th>
                 <th>To Location</th>
                 <th>Date</th>
+                <th>Search</th>
           </tr>
           </thead>
           <tbody>
@@ -188,7 +208,7 @@
                 {{to}}
             </td>
             <td>
-              {{b.date}}
+              {{b.date| date: 'dd-MM-yyyy'}}
           </td>
                 <td>
                   <button class ="btn btn-danger" (click)="showSeats(b.id)">Select Tickets</button>
@@ -211,48 +231,40 @@
 
 
 <div *ngIf =showseat>
-
+<br>
+<br>
 <div class="container">
-<!--        
-  <form  [formGroup]="form" (ngSubmit)="submit()">
-           
-      <div class="form-group">
-          <label for="seat">Seat:</label>
-        <div *ngFor="let s of seats;let i=index">
-            <label>
-              <input type="checkbox" id="seats"  (change)="onCheckboxChange($event)" />
-              {{s.seatName}}
-            </label>
-          </div>
-        </div>
-       
-      <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
-  </form> -->
+
   <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
     <div class="grid-container">
     <div *ngFor="let s of seats; let i=index">
       <label>
-        <!-- <div *ngIf ="s.seatStatus!=no"> -->
          
-        <input class="sm" type="checkbox" [value]="s.seatName" (change)="onCheckboxChange($event)" [disabled]="s.seatStatus==no" />
+        <input  type="checkbox" [value]="s.seatName" (change)="onCheckboxChange($event)" [disabled]="s.seatStatus==no" />
         {{s.seatName}}
      
       </label>
     </div>
   </div>
-    <p class="error" *ngIf="this.form.controls['checkArray'].errors?.required">
-      Seat is required, select atleast one seat to proceed.
+    <p style="margin-left: 400px;color: red;"  class="error" *ngIf="this.form.controls['checkArray'].errors?.required">
+            *Seat is required, select atleast one seat to proceed.
     </p>
-  
-    <input class="btn-success" type="submit" value="Submit">
+    <div  style="float:left;margin-left: 300px;"> 
+      <ul id="seatDescription">
+          <li style="background:url('../../assets/img/availsel.jpg') no-repeat scroll 0 0 transparent;">&nbsp; &nbsp;Available Seat&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+          <li style="background:url('../../assets/img/notavailable.jpg') no-repeat scroll 0 0 transparent;">&nbsp; &nbsp;Booked Seat&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+          <li style="background:url('../../assets/img/available1.jpg') no-repeat scroll 0 0 transparent;">&nbsp; &nbsp;Selected Seat&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+      </ul>
+      </div>
+      <br>
+      <br>
+      <div style="margin-left: 500px;">
+        <button type="submit" class="btn btn-success" >Submit</button> &nbsp; &nbsp;
+        </div>
+   
   </form>
-  <div style="float:left;"> 
-    <ul id="seatDescription">
-        <li style="background:url('../../assets/img/availsel.jpg') no-repeat scroll 0 0 transparent;">Available Seat</li>
-        <li style="background:url('../../assets/img/notavailable.jpg') no-repeat scroll 0 0 transparent;">Booked Seat</li>
-        <li style="background:url('../../assets/img/available1.jpg') no-repeat scroll 0 0 transparent;">Selected Seat</li>
-    </ul>
-    </div>
+  <br>
+ 
 </div>
 
 

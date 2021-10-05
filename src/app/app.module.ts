@@ -33,6 +33,10 @@ import { ViewBookingComponent } from './components/view-booking/view-booking.com
 import { ViewbookingsCustomerComponent } from './components/viewbookings-customer/viewbookings-customer.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.component';
+import { CustomerNavbarComponent } from './components/customer-navbar/customer-navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +55,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     CustomerOperationsComponent,
     ViewBookingComponent,
     ViewbookingsCustomerComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    AdminNavbarComponent,
+    CustomerNavbarComponent
  
   ],
   imports: [
@@ -60,7 +66,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     MatFormFieldModule,
     MatInputModule ,BrowserAnimationsModule,NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
-    NgxMatTimepickerModule,MatCheckboxModule,Ng2SearchPipeModule,FormsModule
+    NgxMatTimepickerModule,MatCheckboxModule,Ng2SearchPipeModule,FormsModule,NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import Swal from 'sweetalert2';
@@ -23,7 +24,7 @@ customerLoginForm! : FormGroup;
 ForgetForm:FormGroup
 errorMessage?:String;
 adminId?:number;
-customers?:Customer
+customers:Observable<Customer[]>|any
 email:string
 cusId?:number
 forgetPass:boolean
@@ -51,25 +52,30 @@ customerLogin(){
   this.password=this.customerLoginForm.value.password
   this.customerService.getCustomerByEmailAndPassword(this.customerLoginForm.get('email').value,this.customerLoginForm.get('password').value)
   .subscribe(res=>{
-    if(res){
+    this.customers=res
+    this.customers=this.customers.data
+    if(this.email== "Admin" && this.password =="Admin@123")
+    {
+      //this.successMessage = "Login Successful";
+      console.log("Login Successful");
+      this.router.navigate(['admin'])
+    }
+    else if(this.customers){
     console.log("Login Successfully!!");
 
     this.customerService.getCustomerByEmail(this.email)
     .subscribe(res=>{
       console.log(res);
         this.customers=res
+        this.customers=this.customers.data
         console.log(this.customers.id)
         this.cusId=this.customers.id;
+       
         this.successAlertNotification(this.cusId);
+        
     })
     }
-    else if(this.email== "Admin" && this.password =="Admin@123")
-    {
-      //this.successMessage = "Login Successful";
-      console.log("Login Successful");
-      this.router.navigate(['admin'])
-    }
-  
+    
  
 else{
   this.wrongLogin();
@@ -106,7 +112,9 @@ forgetPassword(){
   this.customerService.forgetPassword(email)
   .subscribe(
     res=>{
-      if(res!=null){
+      this.customers=res
+      this.customers=this.customers.data
+      if(this.customers!=null){
         this.sucess();
       }
       else{
@@ -148,25 +156,7 @@ sucess(){
   customer(){
     this.router.navigate(['login'])
   }
-  adminLogin(){
-    /* console.log(this.adminForm.value)
-      this.adminService.adminLogin( this.adminForm.get('adminId').value,this.adminForm.get('adminpassword').value)
-          .subscribe((response) => {
-              this.successMessage = "Login Successful";
-              console.log(response);
-            }, err => this.errorMessage = err) */
-    if(this.adminForm.get('adminId').value == "Admin" && this.adminForm.get('adminpassword').value=="Admin@123")
-    {
-      //this.successMessage = "Login Successful";
-      console.log("Login Successful");
-      this.router.navigate(['admin'])
-    }
-    else
-    {
-      this.WrongLoginNotification()
-      console.log("AdminId/password is incorrect");
-    }
-  }
+  
   WrongLoginNotification(){
     Swal.fire('WRONG', 'Check UserName and Password', 'error')
     this.adminlogin=true

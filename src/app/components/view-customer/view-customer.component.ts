@@ -36,9 +36,14 @@ search:any
       
         console.log(res);
         this.customers=res
+        
+        this.customers=this.customers.data
       }
     )}
-
+    home(){
+  
+      this.router.navigate(['admin'])
+    }
 edit(id:number){
   this.router.navigate(['editcus',id])
 }
@@ -53,12 +58,10 @@ delete(id : number){
   
   },
   error => {
-    this.refresh();
     
    
     console.log(error);
   });
-  this.successMessage = id +" :   successfully deleted"
 }
 refresh(){
   this.customerService.getAllCustomers().subscribe(
@@ -100,14 +103,5 @@ back(){
     
   this.router.navigate(['admin'])
   }
-  add(){
-    this.router.navigate(['view'])
-   }
-  addbus(){
-    this.router.navigate(['viewbus'])
-   }
-   addcus(){
-     
-    this.router.navigate(['viewbook'])
-   }
+  
 }
