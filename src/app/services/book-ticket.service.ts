@@ -26,17 +26,17 @@ export class BookTicketService {
         catchError(this.errorHandler)
       )
   }
-  getAllBookings() : Observable<BookTicket[]>{
+  getAllBookings() : Observable<any>{
     return this.http.get<BookTicket[]>(`${URL}`).pipe(retry(0),
     catchError(this.errorHandler)
     );
   }
-  getById(id:number) : Observable<BookTicket>{
+  getById(id:number) : Observable<any>{
     return this.http.get<BookTicket>(`${URL}/${id}`).pipe(retry(0),
     catchError(this.errorHandler)
     );
   }
-  getByCusId(id:number) : Observable<BookTicket>{
+  getByCusId(id:number) : Observable<any>{
     return this.http.get<BookTicket>(`${URL}/cus/${id}`).pipe(retry(0),
     catchError(this.errorHandler)
     );

@@ -20,21 +20,21 @@
         </div>
 
         <div class="form-group">
-            <label><b>Customer Phone Number :</b></label>
-            <input type="number" class="form-control" formControlName="mobileNumber" required>
-            <div class="alert alert-danger" *ngIf="CustomerForm.get('mobileNumber').hasError('required') && 
-              CustomerForm.get('mobileNumber').dirty">
-              Customer  Phone is Required
-            </div>
-            <div class="alert alert-danger" *ngIf="CustomerForm.get('mobileNumber').hasError('minlength') &&
-            CustomerForm.get('mobileNumber').dirty">
-              Enter atleast 10 Numbers
-            </div>
-            <div *ngIf="errphnMessage">
-              <b><font color = "red">Mobile number already exists</font></b>
-            </div>
-        </div>
-
+          <label><b>Customer Phone Number :</b></label>
+          <input type="tel" class="form-control" formControlName="mobileNumber">
+          <div class="alert alert-danger"
+              *ngIf="CustomerForm.get('mobileNumber').hasError('required') && CustomerForm.get('mobileNumber').dirty">
+              Mobile Number is required
+          </div>
+          <div class="alert alert-danger"
+              *ngIf="CustomerForm.get('mobileNumber').hasError('minlength') && CustomerForm.get('mobileNumber').dirty">
+              Enter Appropriate 10 digit Mobile Number
+          </div>
+          <div class="alert alert-danger"
+              *ngIf="CustomerForm.get('mobileNumber').hasError('maxlength') && CustomerForm.get('mobileNumber').dirty">
+              Mobile No should be 10 digits
+          </div>
+      </div>
      
 
 
@@ -87,7 +87,7 @@
 <br>
 
 <div style="margin-left:70px;">
-      <button type="submit" class="btn btn-primary">Submit  &nbsp; &nbsp; &nbsp;</button> &nbsp; &nbsp;
+      <button type="submit" class="btn btn-primary" [disabled]="CustomerForm.invalid">Submit  &nbsp; &nbsp; &nbsp;</button> &nbsp; &nbsp;
       <button class="btn btn-dark" (click)="back()">Back</button>
     </div> 
     <br>

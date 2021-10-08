@@ -3,7 +3,7 @@ import { Bus } from "./bus";
 export class Seat {
 
     id:number;
-    seatName:string;
+    seatNumber:number;
     seatStatus:string;
     bus:Bus;
 }

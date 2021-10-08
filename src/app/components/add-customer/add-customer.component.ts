@@ -5,10 +5,9 @@ import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ToasterService } from 'src/app/services/toaster.service';
-import Swal from 'sweetalert2';
 
-   
-declare var toastr:any
+
+declare var toastr: any
 @Component({
   selector: 'app-add-customer',
   templateUrl: './add-customer.component.html',
@@ -18,75 +17,74 @@ export class AddCustomerComponent implements OnInit {
 
 
   CustomerForm = new FormGroup({});
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute,public customerService:CustomerService,public toaster:ToasterService) { }
-  password :String = "";
-  confirm_password :String = "";
-  phnno:string
-  cusemail:string
-  errorMessage?: boolean;
-  errmessage:string
-  errphnMessage?:boolean
-  successMessage?: string;
-  customers:Observable<Customer[]>|any
-  add:boolean
-  show:boolean
-  
+  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public customerService: CustomerService, public toaster: ToasterService) { }
+  password: String = "";
+  confirm_password: String = "";
+  phnno: string
+  cusemail: string
+  errorMessage: boolean;
+  errmessage: string
+  errphnMessage: boolean
+  successMessage: string;
+  customers: Customer
+  add: boolean
+  show: boolean
+
   ngOnInit(): void {
 
     this.CustomerForm = this.formBuilder.group({
-      name : ['', [Validators.required,Validators.minLength(5)]],
-     
-      password : ['',[Validators.required ]],
-      confirm_password : ['',[Validators.required]],
-      email : ['',[Validators.required,Validators.email]],
-     
-      mobileNumber : ['', Validators.required],
-      
-  })
+      name: ['', [Validators.required, Validators.minLength(5),]],
+
+      password: ['', [Validators.required]],
+      confirm_password: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+
+      mobileNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+
+    })
 
 
   }
-  addcus(){
-    this.add =true;
-   }
-   viewcus(){
-     this.router.navigate(['viewcus']);
-   }
-  
-  search(){
+  addcus() {
+    this.add = true;
+  }
+  viewcus() {
+    this.router.navigate(['viewcus']);
+  }
+
+  search() {
     this.router.navigate(['search'])
-   }
-   addCustomers(){
+  }
+  addCustomers() {
     this.customerService.addCustomer(this.CustomerForm.value)
-        .subscribe(
-          response => {
-            console.log(response);
-            
-            this.toaster.success( 'Customer Added!!!');
-            this.router.navigate(['home'])
-            this.successMessage = "Customer Added successfully";
-            console.log("#######Customer added successfully ");
-          },
-          error => {
-            console.log(error.errorMessage);
-            this.toaster.error("Email already exists")
-          });
+      .subscribe(
+        response => {
+          console.log(response);
+
+          this.toaster.success('Customer Added!!!');
+          this.router.navigate(['home'])
+          console.log("#######Customer added successfully ");
+        },
+        error => {
+          console.log(error);
+          this.toaster.error("Email already exists")
+        });
   }
-  back(){
-    
+  back() {
+
     this.router.navigate(['home'])
-    }
-    login(){
-    
-      this.router.navigate(['home'])
-      }
-passwordMatch(password:String, confirm_password:String) {
-  if(password===confirm_password){
-    return false;
   }
-  return true;
+  login() {
+
+    this.router.navigate(['home'])
+  }
+  passwordMatch(password: String, confirm_password: String) {
+    if (password === confirm_password) {
+      return false;
+    }
+    return true;
 
 
-}
+  }
 
 }

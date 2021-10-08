@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Route } from 'src/app/models/route';
 import { RouteService } from 'src/app/services/route.service';
 import { ToasterService } from 'src/app/services/toaster.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-route',
@@ -13,78 +12,74 @@ import Swal from 'sweetalert2';
 })
 export class AddRouteComponent implements OnInit {
 
-  errorMessage?: string;
-  addroute?:boolean;
-  successMessage?: string;
-fromLocation?:String;
-toLocation?:String;
-  routes?:Route
-  
+  errorMessage: string;
+  addroute: boolean;
+  successMessage: string;
+  fromLocation: string;
+  toLocation: string;
+  routes: Route
+
   RouteForm = new FormGroup({});
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public routeService:RouteService,public toaster:ToasterService) { }
+  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public routeService: RouteService, public toaster: ToasterService) { }
 
   ngOnInit(): void {
-console.log("Add route component called")
-this.addroute=true
+    this.addroute = true
     this.RouteForm = this.formBuilder.group({
-      fromLocation : ['', [Validators.required,Validators.minLength(5)]],
-      toLocation : ['', [Validators.required,Validators.minLength(5)]],
-      routeName : ['', [Validators.required,Validators.minLength(5)]],
-     distance : ['', [Validators.required]],
+      fromLocation: ['', [Validators.required, Validators.minLength(5)]],
+      toLocation: ['', [Validators.required, Validators.minLength(5)]],
+      routeName: ['', [Validators.required, Validators.minLength(5)]],
+      distance: ['', [Validators.required]],
     })
   }
-check(){
+  check() {
 
 
     this.routes = this.RouteForm.value;
     this.fromLocation = this.routes.fromLocation;
     console.log(this.routes);
     this.toLocation = this.routes.toLocation;
-    this.routeService.getRouteByLocation(this.fromLocation,this.toLocation)
-    .subscribe(
-      res=>{
-        console.log(res[0]);
-       
-        this.routes= res[0]
-        if(this.routes==null){
+    this.routeService.getRouteByLocation(this.fromLocation, this.toLocation)
+      .subscribe(
+        res => {
+          console.log(res[0]);
+
+          this.routes = res[0]
+          if (this.routes == null) {
             this.addRoute();
-            
-        }
-        else{
-          console.log("Route already exists");
-          this.errorMessage="Route with this from and to location already exists"
-        }
-      }
-    )
-}
 
-addRoute(){
-  
-  console.log("add route called");
-   this.routeService.addRoute(this.RouteForm.value)
-
-.subscribe(
-  res =>{
-    console.log(res);
-    this.routes=res;
-    
-    this.successAlertNotification()
-    console.log("#######Route added successfully ");
-  },
-  error => {
-    console.log(error)    
-    
+          }
+          else {
+            console.log("Route already exists");
+            this.errorMessage = "Route with this from and to location already exists"
+          }
+        }
+      )
   }
-);
-}
-back(){
-  this.router.navigate(['admin']);
-}
+
+  addRoute() {
+
+    console.log("add route called");
+    this.routeService.addRoute(this.RouteForm.value)
+
+      .subscribe(
+        res => {
+          console.log(res);
+          this.routes = res;
+
+          this.toaster.success("Route Added Successfully");
+          this.router.navigate(['view'])
+          console.log("#######Route added successfully ");
+        },
+        error => {
+          console.log(error);
+          
+
+        }
+      );
+  }
+  back() {
+    this.router.navigate(['admin']);
+  }
 
 
-successAlertNotification(){
-  // Swal.fire('Success', 'Route Added Successfully', 'success')
-  this.toaster.success("Route Added Successfully");
-  this.router.navigate(['view'])
-}
 }

@@ -10,7 +10,6 @@ export class AppComponent implements OnInit {
   // title = 'bus-ticket-booking';
   constructor(public router: Router) { }
   ngOnInit(): void {
-    this.router.navigate(['home'])
   }
    
 home(){

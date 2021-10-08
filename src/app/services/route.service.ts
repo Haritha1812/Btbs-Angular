@@ -31,7 +31,7 @@ getRouteByLocation(fromLocation:String,toLocation:String) : Observable<Route[]>{
   );
 }
 
-getAllRoutes() : Observable<Route[]>{
+getAllRoutes() : Observable<any>{
   return this.http.get<Route[]>(`${URL}`).pipe(retry(0),
   catchError(this.errorHandler)
   );

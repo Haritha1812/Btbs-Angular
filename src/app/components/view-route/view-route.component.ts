@@ -13,10 +13,10 @@ import Swal from 'sweetalert2';
 })
 export class ViewRouteComponent implements OnInit {
 
-show?:boolean
+show:boolean
 config:any
-successMessage?:string
-routes:Observable<Route[]>|any
+successMessage:string
+routes:Route[]
 search:any
   constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, public routeService:RouteService) { }
 
@@ -39,14 +39,17 @@ this.viewAllroutes()
     .subscribe(
       res=>{
         console.log(res);
-        this.routes=res;
-        this.routes = this.routes.data
+        this.routes=res.data;
         this.show=true;
         this.config = {​
           itemsPerPage:3,
           currentPage:1,
-          totalItems:this.routes.count
+          totalItems:this.routes.length
                 }​;
+      },error=>{
+        console.log(error);
+        
+        
       }
    
     )

@@ -7,27 +7,30 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./admin-navbar.component.css']
 })
 export class AdminNavbarComponent implements OnInit {
-  constructor(public router: Router,public activatedRoute: ActivatedRoute,) { }
+  constructor(public router: Router, public activatedRoute: ActivatedRoute,) { }
 
 
   ngOnInit(): void {
   }
-  add(){
+  add() {
     this.router.navigate(['view'])
-   }
-  addbus(){
+  }
+  addbus() {
     this.router.navigate(['viewbus'])
-   }
-   addcus(){
-     
+  }
+  addcus() {
+
     this.router.navigate(['viewbook'])
-   }
-   home(){
-    
+  }
+  home() {
+
     this.router.navigate(['admin'])
   }
-  cus(){
-    
+  cus() {
+
     this.router.navigate(['viewcus'])
+  }
+  viewbook() {
+
   }
 }

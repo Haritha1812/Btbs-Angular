@@ -2,23 +2,22 @@ import { Time } from "@angular/common"
 import { Route } from 'src/app/models/route';
 
 export class Bus {
-    id?:number
+	id: number
 
-	  name?:string
+	name: string
 
-	 busType ?:string
+	busType: string
 
-	  numberOfSeats?:number
+	numberOfSeats: number
 
-	  routeName?:string
 
-	 route = new Route();
-	
-	 date?:Date
-	
-	
-	  departureTime?:Time
-	
-	  arrivalTime?:Time
-	  fare?:number
+	route = new Route();
+
+	date: Date
+
+
+	departureTime: Time
+
+	arrivalTime: Time
+	fare: number
 }

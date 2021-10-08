@@ -31,7 +31,7 @@ addPassenger(passenger: Passenger): Observable<Passenger> {
       catchError(this.errorHandler)
     )
 }
-getByBusidandcusid(busid:number,cusid:number) : Observable<Passenger[]>{
+getByBusidandcusid(busid:number,cusid:number) : Observable<any>{
   return this.http.get<Passenger[]>(`${URL}/details/${busid}/${cusid}`).pipe(retry(0),
   catchError(this.errorHandler)
   );

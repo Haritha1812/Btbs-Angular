@@ -26,7 +26,7 @@ export class BusService {
         catchError(this.errorHandler)
       )
   }
-  getRouteByLocation(fromLocation:String,toLocation:String,date:string) : Observable<Bus[]>{
+  getRouteByLocation(fromLocation:String,toLocation:String,date:string) : Observable<any>{
     return this.http.get<Bus[]>(`${URL}/searchByfromTo/${fromLocation}/${toLocation}/${date}`).pipe(retry(0),
     catchError(this.errorHandler)
     );
@@ -36,7 +36,7 @@ export class BusService {
     catchError(this.errorHandler)
     );
   }
-  getBusByName(name:string) : Observable<Bus>{
+  getBusByName(name:string) : Observable<any>{
     return this.http.get<Bus>(`${URL}/name/${name}`).pipe(retry(0),
     catchError(this.errorHandler)
     );
@@ -51,7 +51,7 @@ export class BusService {
   deletebus(busId:number) : Observable<Bus>{
     return this.http.delete<Bus>(`${URL}/deletebus/${busId}`)
   }
-  getAllBuses() : Observable<Bus[]>{
+  getAllBuses() : Observable<any>{
     return this.http.get<Bus[]>(`${URL}`).pipe(retry(0),
     catchError(this.errorHandler)
     );

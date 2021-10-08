@@ -27,16 +27,16 @@ import { ToasterService } from 'src/app/services/toaster.service';
 export class ViewbookingsCustomerComponent implements OnInit {
 
   constructor(public formBuilder: FormBuilder,public toaster:ToasterService, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService, public passengerService: PassengerService, public customerService: CustomerService, public bookService: BookTicketService) { }
-  bookTickets: Observable<BookTicket[]> | any
+  bookTickets: BookTicket
   booking: any[] = []
-  bookings: Observable<BookTicket[]> | any
+  bookings: BookTicket[]
+  
   passengers: Observable<Passenger>[] | any
   showpassenger: boolean
   view: boolean
   viewid: boolean
   cusId?: number
   config: any
-  book: Observable<BookTicket[]> | any
   busName: string
   bustype: string
   journeyDate: Date
@@ -52,16 +52,16 @@ export class ViewbookingsCustomerComponent implements OnInit {
   ngOnInit(): void {
     this.view = true
     this.cusId = this.activatedRoute.snapshot.params['cusId'];
+    console.log(this.cusId)
     this.bookService.getByCusId(this.cusId)
       .subscribe(res => {
         console.log(res)
-        this.bookings = res
-        this.bookings = this.bookings.data
+        this.bookings = res.data
 
         this.config = {
           itemsPerPage: 3,
           currentPage: 1,
-          totalItems: this.bookings.count
+          totalItems: this.bookings.length
         };
 
         console.log(this.bookings[0].bus.id)
@@ -107,24 +107,20 @@ export class ViewbookingsCustomerComponent implements OnInit {
         this.showpassenger = true
       })
   }
-  viewDetail(id: number) {
-    console.log(id)
-    this.bookService.getById(id)
-      .subscribe(res => {
-        console.log(res)
-        this.bookings = res
-        this.bookings = this.bookings.data
-        console.log(this.bookings)
+  viewDetail(b: BookTicket) {
+    
+        this.bookTickets = b
+        console.log(this.bookTickets)
         this.viewid = true
         this.view = false
-        this.passengerService.getByBusidandcusid(this.bookings.bus.id, this.bookings.customer.id)
+        this.passengerService.getByBusidandcusid(this.bookTickets.bus.id, this.bookTickets.customer.id)
           .subscribe(res => {
             console.log(res);
             this.passengers = res
             this.passengers = this.passengers.data
 
           })
-      })
+    
   }
   viewPass() {
     this.showpassenger = true
@@ -137,15 +133,10 @@ export class ViewbookingsCustomerComponent implements OnInit {
 
     this.router.navigate(['cusop', this.cusId])
   }
-  download(id: number) {
+  download(b:BookTicket) {
     this.invoice = true
-    this.bookService.getById(id)
-      .subscribe(res => {
-
-        console.log(res)
-        this.book = res;
-        this.book = this.book.data
-        this.passengerService.getByBusidandcusid(this.book.bus.id, this.book.customer.id)
+    this.bookTickets=b
+        this.passengerService.getByBusidandcusid(this.bookTickets.bus.id, this.bookTickets.customer.id)
           .subscribe(res => {
             console.log(res);
             this.passengers = res
@@ -153,19 +144,18 @@ export class ViewbookingsCustomerComponent implements OnInit {
             this.passengers = this.passengers.data
             this.numberOfTickets = this.passengers.length
           })
-        this.busName = this.book.bus.name
-        this.bustype = this.book.bus.busType
-        this.journeyDate = this.book.bookingDate
-        this.arrivalStation = this.book.bus.route.fromLocation
-        this.departureStation = this.book.bus.route.toLocation
-        this.arrivalTime = this.book.bus.arrivalTime
-        this.departureTime = this.book.bus.departureTime
-        this.totalAmount = this.book.billAmount
-        this.name = this.book.customer.name
+        this.busName = this.bookTickets.bus.name;
+        this.bustype = this.bookTickets.bus.busType;
+        this.journeyDate = this.bookTickets.bookingDate;
+        this.arrivalStation = this.bookTickets.bus.route.fromLocation;
+        this.departureStation = this.bookTickets.bus.route.toLocation;
+        this.arrivalTime = this.bookTickets.bus.arrivalTime;
+        this.departureTime = this.bookTickets.bus.departureTime;
+        this.totalAmount = this.bookTickets.billAmount;
+        this.name =  b.customer.name;
 
 
-
-      })
+``
   }
   public openPDF(): void {
     let DATA = document.getElementById('htmlData');

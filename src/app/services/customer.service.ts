@@ -29,7 +29,7 @@ addCustomer(customer: Customer): Observable<Customer> {
       catchError(this.errorHandler)
     )
 }
-getAllCustomers() : Observable<Customer[]>{
+getAllCustomers() : Observable<any>{
   return this.http.get<Customer[]>(`${URL}`).pipe(retry(0),
   catchError(this.errorHandler)
   );

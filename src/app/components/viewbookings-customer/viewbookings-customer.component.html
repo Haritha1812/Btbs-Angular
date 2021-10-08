@@ -88,13 +88,13 @@
                    
                      <td>
            
-                        <button class ="btn btn-primary" (click)="viewDetail(b.id)">View</button>
+                        <button class ="btn btn-primary" (click)="viewDetail(b)">View</button>
                         
                       
                     </td> 
                     <td>
            
-                        <button class ="btn btn-primary" (click)="download(b.id)" [disabled]="b.bookingStatus === 'Pending'">Download</button>
+                        <button class ="btn btn-primary" (click)="download(b)" [disabled]="b.bookingStatus === 'Pending'">Download</button>
                     </td> 
                     
                 <!-- </div> -->
@@ -127,61 +127,61 @@
                
                 <tr>
                     <th>Booking  Date </th><td>:</td>
-                    <td>{{bookings.bookingDate| date: 'dd-MM-yyyy'}}</td>
+                    <td>{{bookTickets.bookingDate| date: 'dd-MM-yyyy'}}</td>
                 </tr>
                 <tr>
                     <th> Name </th><td>:</td>
-                    <td>{{bookings.customer.name}}</td>
+                    <td>{{bookTickets.customer.name}}</td>
                 </tr>
                 <tr>
                     <th> Email Id </th><td>:</td>
-                    <td>{{bookings.customer.email}}</td>
+                    <td>{{bookTickets.customer.email}}</td>
                 </tr>
                 <tr>
                     <th> Phone Number</th><td>:</td>
-                    <td>{{bookings.customer.mobileNumber}}</td>
+                    <td>{{bookTickets.customer.mobileNumber}}</td>
                 </tr>
               
                 <tr>
                     <th>Bus Id </th><td>:</td>
-                    <td>{{bookings.bus.id}}</td>
+                    <td>{{bookTickets.bus.id}}</td>
                 </tr>
               
                 <tr>
                     <th>Bus Name </th><td>:</td>
-                    <td>{{bookings.bus.name}}</td>
+                    <td>{{bookTickets.bus.name}}</td>
                 </tr> 
                 <tr>
                     <th>Number of Seats </th><td>:</td>
-                   <td>{{bookings.bus.numberOfSeats}}</td>
+                   <td>{{bookTickets.bus.numberOfSeats}}</td>
                 </tr>
                 <tr>
                     <th>From Location </th><td>:</td>
-                    <td>{{bookings.bus.route.fromLocation}}</td>
+                    <td>{{bookTickets.bus.route.fromLocation}}</td>
                 </tr> 
                 <tr>
                     <th>To Location </th><td>:</td>
-                    <td>{{bookings.bus.route.toLocation}}</td>
+                    <td>{{bookTickets.bus.route.toLocation}}</td>
                 </tr>
                 <tr>
                     <th>Arrival Time </th><td>:</td>
-                    <td>{{bookings.bus.arrivalTime}}</td>
+                    <td>{{bookTickets.bus.arrivalTime}}</td>
                 </tr>
                 <tr>
                     <th>Departure Time </th><td>:</td>
-                    <td>{{bookings.bus.departureTime}}</td>
+                    <td>{{bookTickets.bus.departureTime}}</td>
                 </tr> 
                 <tr>
                     <th>Bus Fare </th><td>:</td>
-                    <td>{{bookings.bus.fare}}</td>
+                    <td>{{bookTickets.bus.fare}}</td>
                 </tr>
                 <tr>
                     <th>Number Of Tickets </th><td>:</td>
-                    <td>{{bookings.numberOfTickets}}</td>
+                    <td>{{bookTickets.numberOfTickets}}</td>
                 </tr>
                 <tr>
                     <th>Bill Amount </th><td>:</td>
-                    <td>{{bookings.billAmount}}</td>
+                    <td>{{bookTickets.billAmount}}</td>
                 </tr>
                 <br>
                
