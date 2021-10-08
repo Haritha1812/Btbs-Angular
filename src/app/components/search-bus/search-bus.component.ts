@@ -162,7 +162,7 @@ export class SearchBusComponent implements OnInit {
     this.busService.getRouteByLocation(this.from, this.to, this.dateformat)
       .subscribe(res => {
         console.log(res)
-        this.buses = res
+        this.buses = res.data
         
         this.from = this.buses[0].route.fromLocation
         this.to = this.buses[0].route.toLocation

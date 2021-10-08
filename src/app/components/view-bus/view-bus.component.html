@@ -29,7 +29,7 @@
                 <th>Departure Time</th>
                 <th>Arrival Time</th>
                 <th>Fare</th>
-              
+                 <th>Route</th>
                 <th>Edit</th>
                 <th>Delete</th>
           </tr>
@@ -62,7 +62,10 @@
                 <td>
                     {{b.fare}}
                 </td>
-               
+                <td>
+                  {{b.route.routeName}}
+              </td>
+             
                 <td>
        
                     <button  class="btn btn-success" (click)="edit(b.id)">Edit</button>
