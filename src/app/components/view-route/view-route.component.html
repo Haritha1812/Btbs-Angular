@@ -1,93 +1,75 @@
-
 <app-admin-navbar></app-admin-navbar>
 
 <br>
 <br>
 <br>
 
-<button  class="btn btn-info" (click)="addroute()" >Add Route</button>
+<button class="btn btn-info" (click)="addroute()">Add Route</button>
 
 <div *ngIf="show">
-    <h2  style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 550px;" align="center"> Route Details</h2>
- 
-        <div class="reglist">
-            <div class="search-hero" >
-                <input style="width: 500px; margin-left: 550px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" autocomplete="off" placeholder="&#xF002; Start searching for a Route by id or name or place">
-              </div>
-              <br>
-              <br>
+    <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 500px;" align="center"> Route Details
+    </h2>
 
-            <div>
-                <table class="table table-striped" >
-                  <thead>
+    <div class="reglist">
+        <div class="search-hero">
+            <input style="width: 500px; margin-left: 530px;" [ngClass]="['form-control','fa fa-search']" type="text"
+                name="search" [(ngModel)]="search" autocomplete="off"
+                placeholder="&#xF002; Start searching for a Route by id or name or place">
+        </div>
+
+
+        <button style="margin-left: 1500px;" class="btn btn-info" (click)="back()">Back</button>
+        <br>
+        <br>
+        <div>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                   
-                        <th>Route Id</th>
+
                         <th>Route Name</th>
                         <th>From Location</th>
                         <th>To Location</th>
                         <th>Distance</th>
                         <th>Edit</th>
                         <th>Delete</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  
+                    </tr>
+                </thead>
+                <tbody>
+
                     <tr *ngFor="let r of routes|paginate:config|filter:search">
+
                         <td>
-                           {{r.routeId}}
-                         </td>
-                         <td>
-                             {{r.routeName}}
-                         </td>
-                     
-                         <td>
-                             {{r.fromLocation}}
-                         </td>
-                         <td>
+                            {{r.routeName}}
+                        </td>
+
+                        <td>
+                            {{r.fromLocation}}
+                        </td>
+                        <td>
                             {{r.toLocation}}
                         </td>
                         <td>
                             {{r.distance}}
                         </td>
                         <td>
-               
-                            <button  class="btn btn-success" (click)="edit(r.routeId)">Edit</button>
-                        </td>
-                         <td>
-               
-                            <button class ="btn btn-danger" (click)="alertConfirmation(r.routeId)">Delete</button>
-                        </td>
-                       </tr>
-                  </tbody>
-                
-             
-              <br>
-            
-            <!-- </div> -->
-        </table>
-        <div style="margin-left: 600px;">
-          <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
-          </div>
-        <td>
-            <button  class="btn btn-primary" (click)="back()">Back</button>
-          </td>
-    </div>
-</div><!-- 
 
-<div *ngIf="showroute">
-    <form style="width:300px;padding: 30px;margin-left: 550px;"
-    novalidate [formGroup]="receptionistForm" (ngSubmit)="viewRouteById()">
-    <div class="form-group">
-      <label>Route Id :</label>
-      <input type="text" class="form-control" formControlName="routeId">
-      </div>
-  <br>
-     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 
-  
-        <input  type="submit" value="Search" class="btn btn-primary" [disabled]="receptionistForm.invalid">
-  
-  
-  </form>
-  </div>
- -->
+                            <button class="btn btn-success" (click)="edit(r.routeId)">Edit</button>
+                        </td>
+                        <td>
+
+                            <button class="btn btn-danger" (click)="alertConfirmation(r.routeId)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+
+                <br>
+
+                <!-- </div> -->
+            </table>
+            <div style="margin-left: 600px;">
+                <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>

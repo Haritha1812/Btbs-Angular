@@ -30,7 +30,6 @@ import { CustomerLoginComponent } from './components/customer-login/customer-log
 import { EditBusComponent } from './components/edit-bus/edit-bus.component';
 import { CustomerOperationsComponent } from './components/customer-operations/customer-operations.component';
 import { ViewBookingComponent } from './components/view-booking/view-booking.component';
-import { ViewbookingsCustomerComponent } from './components/viewbookings-customer/viewbookings-customer.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ToastrModule } from 'ngx-toastr';
@@ -38,6 +37,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.component';
 import { CustomerNavbarComponent } from './components/customer-navbar/customer-navbar.component';
 import { ToasterService } from './services/toaster.service';
+import { ViewbookingsCustomerComponent } from './components/viewbookings-customer/viewbookings-customer.component';
+import { ViewallComponent } from './components/viewall/viewall.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { EditallBusComponent } from './components/editall-bus/editall-bus.component';
 
 @NgModule({
   declarations: [
@@ -56,25 +59,32 @@ import { ToasterService } from './services/toaster.service';
     EditBusComponent,
     CustomerOperationsComponent,
     ViewBookingComponent,
-    ViewbookingsCustomerComponent,
+    
     AdminDashboardComponent,
     AdminNavbarComponent,
-    CustomerNavbarComponent
+    CustomerNavbarComponent,
+    ViewbookingsCustomerComponent,
+    ViewallComponent,
+    EditallBusComponent
  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,ReactiveFormsModule,HttpClientModule,MatDatepickerModule,MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule ,BrowserAnimationsModule,NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    NgxMatTimepickerModule,MatCheckboxModule,Ng2SearchPipeModule,FormsModule,NgxPaginationModule,ToastrModule.forRoot({
+    MatFormFieldModule,MatDialogModule,
+    MatInputModule ,BrowserAnimationsModule,
+    
+    MatCheckboxModule,Ng2SearchPipeModule,FormsModule,NgxPaginationModule,
+    ToastrModule.forRoot({
       timeOut: 3500,
-      positionClass: 'toast-bottom-center',
+      positionClass: 'toast-top-center',
       preventDuplicates: true,
     })
   ],
   providers: [ToasterService],
   bootstrap: [AppComponent],
+  entryComponents:[
+    EditBusComponent
+  ]
 })
 export class AppModule { }

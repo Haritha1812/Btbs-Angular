@@ -1,118 +1,115 @@
-
 <app-admin-navbar></app-admin-navbar>
 
 <div class="container">
   <br>
-  
+
   <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 450px;">Add Bus</h2>
-  <form novalidate [formGroup]="BusForm" (ngSubmit)="addBus()"  style="margin-left: 300px;width: 420px;">
-  <br>
+  <form novalidate [formGroup]="BusForm" (ngSubmit)="addBus()" style="margin-left: 300px;width: 420px;">
+    <br>
     <fieldset>
 
       <div class="form-group">
-          <label><b>Bus Name :</b></label>
-          <input type="text" class="form-control" formControlName="name" required>
-          <div class="alert alert-danger" *ngIf="BusForm.get('name').hasError('required') && BusForm.get('name').dirty">
-              Bus Name is Required
-          </div>
-              <div class="alert alert-danger"
-                  *ngIf="BusForm.get('name').hasError('minlength') && BusForm.get('name').dirty">
-                  Bus name must be of 5 characters
-              </div>
+        <label><b>Bus Name :</b></label>
+        <input type="text" class="form-control" formControlName="name" required>
+        <div class="alert alert-danger" *ngIf="BusForm.get('name').hasError('required') && BusForm.get('name').dirty">
+          Bus Name is Required
+        </div>
+        <div class="alert alert-danger" *ngIf="BusForm.get('name').hasError('minlength') && BusForm.get('name').dirty">
+          Bus name must be of 5 characters
+        </div>
       </div>
 
       <div class="form-group">
         <label><b>Bus Type :</b></label>
-        <select class="form-control"   name="busType" formControlName="busType"  required>
+        <select class="form-control" name="busType" formControlName="busType" requiredn>
+
+
           <option selected="selected">Select</option>
-          <option>AC Sleeper </option>
-          <option>AC Sleeper Seater</option>
-          <option>Deluxe </option>
-          <option>Non-AC Sleeper</option>
-          <option>Ultra Deluxe</option>
-   
-      </select>
-        <div class="alert alert-danger"
-            *ngIf="BusForm.get('busType').hasError('busType') && BusForm.get('busType').dirty">
-            Bus Type is required
-        </div>
+          <option *ngFor="let b of bustype">{{b[1]}} </option>
 
-      </div>
-
-        <div class="form-group">
-          <label><b>Route Name :</b></label>
-          <select class="form-control"   name="route" formControlName="route" required>
-        
-            <option selected="selected">Select</option>
-            <option [ngValue]="r" *ngFor="let r of routes">{{r.routeName}} </option>
-            
         </select>
-          <div class="alert alert-danger"
-              *ngIf="BusForm.get('route').hasError('route') && BusForm.get('route').dirty">
-              Bus Route is required
-          </div>
+        <div class="alert alert-danger"
+          *ngIf="BusForm.get('busType').hasError('busType') && BusForm.get('busType').dirty">
+          Bus Type is required
         </div>
 
-
-
-      
-        <div class="form-group">
-          <label><b>Number Of Seats :</b></label>
-          <input type="number" class="form-control" formControlName="numberOfSeats" required>
-          <div class="alert alert-danger" *ngIf="BusForm.get('numberOfSeats').hasError('required') &&
-          BusForm.get('numberOfSeats').dirty">
-          Number Of Seats  is Required
-        
-          </div>
       </div>
+
       <div class="form-group">
-        <label><b>Journey Date :</b></label>
+        <label><b>Route Name :</b></label>
+        <select class="form-control" name="route" formControlName="route" required>
+
+          <option selected="selected">Select</option>
+          <option [ngValue]="r" *ngFor="let r of routes">{{r.routeName}} </option>
+
+        </select>
+        <div class="alert alert-danger" *ngIf="BusForm.get('route').hasError('route') && BusForm.get('route').dirty">
+          Bus Route is required
+        </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label><b>Number Of Seats :</b></label>
+        <input type="number" class="form-control" formControlName="numberOfSeats" required>
+        <div class="alert alert-danger" *ngIf="BusForm.get('numberOfSeats').hasError('required') &&
+          BusForm.get('numberOfSeats').dirty">
+          Number Of Seats is Required
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <b>Journey Date</b><label> *</label>
         <br>
-      <input  [matDatepicker]="picker"class="form-control" [min]="minDate"  formControlName="date" required>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker ></mat-datepicker>
+        <div class='input-group date'>
+          <input style="width: 300px;" [matDatepicker]="picker" [min]="minDate" class="form-control "
+            formControlName="date" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
       </div>
       <div class="alert alert-danger" *ngIf="BusForm.get('date').hasError('required') &&
-      BusForm.get('date').dirty">
-      Journey Date  is Required
-    
-
+  BusForm.get('date').dirty">
+        Journey Date is Required
       </div>
       <div class="form-group">
         <label><b>Arrival Time :</b></label>
         <input type="time" min="minDate" class="form-control" formControlName="arrivalTime" required>
         <div class="alert alert-danger" *ngIf="BusForm.get('arrivalTime').hasError('required') &&
         BusForm.get('arrivalTime').dirty">
-        Arrival Time   is Required
-      
-        </div>
-    </div>
-    <div class="form-group">
-      <label><b>Departure Time :</b></label>
-      <input type="time" min="minDate" class="form-control" formControlName="departureTime" required>
-      <div class="alert alert-danger" *ngIf="BusForm.get('departureTime').hasError('required') &&
-      BusForm.get('departureTime').dirty">
-      Departure Time   is Required
-    
-      </div>
-  </div>
-  <div class="form-group">
-    <label><b>Bus Fare :</b></label>
-    <input type="number" class="form-control" formControlName="fare" required>
-    <div class="alert alert-danger" *ngIf="BusForm.get('fare').hasError('required') &&
-    BusForm.get('fare').dirty">
-    Bus Fare is Required
-  
-    </div>
-</div>
-      </fieldset>
-      <br>
-      <br>
+          Arrival Time is Required
 
-<div style="margin-left: 100px;">
-    <button type="submit" class="btn btn-primary" [disabled]="BusForm.invalid">Submit</button> &nbsp; &nbsp;
-    <button class="btn btn-dark" (click)="back()">Back</button>
-  </div> 
+        </div>
+      </div>
+      <div class="form-group">
+        <label><b>Departure Time :</b></label>
+        <input type="time" min="minDate" class="form-control" formControlName="departureTime" required>
+        <div class="alert alert-danger" *ngIf="BusForm.get('departureTime').hasError('required') &&
+      BusForm.get('departureTime').dirty">
+          Departure Time is Required
+
+        </div>
+      </div>
+      <div class="form-group">
+        <label><b>Bus Fare :</b></label>
+        <input type="number" class="form-control" formControlName="fare" required>
+        <div class="alert alert-danger" *ngIf="BusForm.get('fare').hasError('required') &&
+    BusForm.get('fare').dirty">
+          Bus Fare is Required
+
+        </div>
+      </div>
+    </fieldset>
+    <br>
+    <br>
+
+    <div style="margin-left: 100px;">
+      <button type="submit" class="btn btn-primary" [disabled]="BusForm.invalid">Submit</button> &nbsp; &nbsp;
+      <button class="btn btn-dark" (click)="back()">Back</button>
+    </div>
   </form>
 
 </div>
@@ -172,11 +169,11 @@
 <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
  -->
 
-  <!-- <input matInput [matDatepicker]="picker" [min]="minDate" placeholder="Choose a date">
+<!-- <input matInput [matDatepicker]="picker" [min]="minDate" placeholder="Choose a date">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker ></mat-datepicker>
  <input type="time" min="minDate" placeholder="choose a time"> -->
- <!-- 
+<!-- 
  <input type="da" [max]="minDate"placeholder="choose a date">    
  <div class="12hr-example">
       <input placeholder="12hr format (default settings)" aria-label="12hr format" [ngxTimepicker]="default" readonly>

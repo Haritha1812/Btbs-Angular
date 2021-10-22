@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Bus } from 'src/app/models/bus';
@@ -7,7 +8,7 @@ import { Route } from 'src/app/models/route';
 import { BusService } from 'src/app/services/bus.service';
 import { RouteService } from 'src/app/services/route.service';
 import { ToasterService } from 'src/app/services/toaster.service';
-import Swal from 'sweetalert2';
+import { ViewBusComponent } from '../view-bus/view-bus.component';
 @Component({
   selector: 'app-edit-bus',
   templateUrl: './edit-bus.component.html',
@@ -16,6 +17,7 @@ import Swal from 'sweetalert2';
 export class EditBusComponent implements OnInit {
 
   busId: number
+  editTime: boolean
   errorMessage: string;
   addroute: boolean;
   successMessage: string;
@@ -23,94 +25,78 @@ export class EditBusComponent implements OnInit {
   busType: string;
   buses: Observable<Bus[]> | any
   rName: string
-  routes: any
+  routes: Route[]
+  route: Route
   BusForm = new FormGroup({});
 
   minDate = new Date();
-  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public toaster: ToasterService) { }
+  constructor(public formBuilder: FormBuilder, public matdialogref: MatDialogRef<ViewBusComponent>, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public toaster: ToasterService) { }
 
 
   ngOnInit(): void {
 
 
+    this.getRoutes();
     this.buses = new Bus();
-    this.busId = this.activatedRoute.snapshot.params['busId'];
-    if (this.busId != -1) {
-      console.log("getRouteById called")
-      this.busService.getBusById(this.busId)
-        .subscribe(res => {
-          console.log(res);
-          this.buses = res;
-          this.buses = this.buses.data
-          console.log(this.buses.routeName);
-          this.routeName = this.buses.routeName;
-          this.busType = this.buses.busType
-          this.BusForm = this.formBuilder.group({
-            id: [this.buses.id, [Validators.required]],
-            name: [this.buses.name, [Validators.required, Validators.minLength(5)]],
-            busType: [this.buses.busType, [Validators.required, Validators.minLength(5)]],
-            routeName: [this.buses.routeName, [Validators.required, Validators.minLength(5)]],
-            numberOfSeats: [this.buses.numberOfSeats, [Validators.required]],
-            date: [this.buses.date, [Validators.required]],
-            departureTime: [this.buses.departureTime, [Validators.required, Validators.minLength(5)]],
-            arrivalTime: [this.buses.arrivalTime, [Validators.required]],
-            fare: [this.buses.fare, [Validators.required]],
-
-          })
-          this.routeService.getAllRoutes()
-            .subscribe(res => {
-              console.log(res);
-              this.routes = res
-              this.routes = this.routes.data
-            })
+    this.buses = JSON.parse(localStorage.getItem('bus'));
+    this.route = this.buses.route
+    console.log(this.buses)
 
 
+  }
 
+  getRoutes() {
+    this.routeService.getAllRoutes()
+      .subscribe(res => {
+        console.log(res);
+        this.routes = res.data
+        console.log(this.routes)
+      })
 
-        })
-
-    }
   }
   editBus() {
 
-    console.log("updatebuses called")
-    this.buses = this.BusForm.value
-    this.rName = this.buses.routeName;
+
+
+
     console.log(this.buses)
-    console.log(this.rName)
-    this.routeService.getRouteByName(this.rName)
+    console.log(this.buses.route.routeName)
+
+    this.busService.updatebustimings(this.buses)
       .subscribe(
-        data => {
-          console.log(data);
-          this.routes = data
-          this.routes = this.routes.data
-          this.buses.route = this.routes
+        res => {
+          console.log(res);
+          this.buses = res;
+          this.toaster.success('Updated Successfully!!');
+          this.toaster.info('Mail sent to the booked customers');
+          this.reloadComponent();
+          this.matdialogref.close();
+        },
+        error => {
 
 
 
-          console.log(this.buses)
-          this.busService.updatebus(this.buses)
-            .subscribe(
-              res => {
-                console.log(res);
-                this.buses = res;
-                this.toaster.success('Updated Successfully!!')
-                this.router.navigate(['viewbus'])
-              },
-              error => {
+        }
+      );
 
-
-
-              }
-            );
-
-        })
 
 
   }
-  back() {
 
-    this.router.navigate(['viewbus'])
+  reloadComponent() {
+
+
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+    this.router.onSameUrlNavigation = 'reload';
+
+    this.router.navigate(['viewbus']);
+
+  }
+  back() {
+    this.matdialogref.close();
+
   }
 
 }

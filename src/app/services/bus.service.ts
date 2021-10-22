@@ -17,7 +17,7 @@ export class BusService {
       'Content-Type': 'application/json'
     })
   }
-  constructor(public http:HttpClient) { }
+  constructor(public http: HttpClient) { }
 
   addBus(bus: Bus): Observable<Bus> {
     return this.http.post<Bus>(`${URL}`, bus, this.httpOptions)
@@ -26,19 +26,19 @@ export class BusService {
         catchError(this.errorHandler)
       )
   }
-  getRouteByLocation(fromLocation:String,toLocation:String,date:string) : Observable<any>{
+  getRouteByLocation(fromLocation: String, toLocation: String, date: string): Observable<any> {
     return this.http.get<Bus[]>(`${URL}/searchByfromTo/${fromLocation}/${toLocation}/${date}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
     );
   }
-  getBusById(busid:number) : Observable<Bus>{
+  getBusById(busid: number): Observable<any> {
     return this.http.get<Bus>(`${URL}//${busid}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
     );
   }
-  getBusByName(name:string) : Observable<any>{
+  getBusByName(name: string): Observable<any> {
     return this.http.get<Bus>(`${URL}/name/${name}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
     );
   }
   updatebus(bus: Bus): Observable<Bus> {
@@ -48,46 +48,57 @@ export class BusService {
         catchError(this.errorHandler)
       )
   }
-  deletebus(busId:number) : Observable<Bus>{
+  updatebustimings(bus: Bus): Observable<Bus> {
+    return this.http.put<Bus>(`${URL}/timing`, bus, this.httpOptions)
+      .pipe(
+        retry(0),
+        catchError(this.errorHandler)
+      )
+  }
+  deletebus(busId: number): Observable<Bus> {
     return this.http.delete<Bus>(`${URL}/deletebus/${busId}`)
   }
-  getAllBuses() : Observable<any>{
+  getAllBuses(): Observable<any> {
     return this.http.get<Bus[]>(`${URL}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
+    );
+  }
+  getBusTypes(): Observable<any> {
+    return this.http.get<Bus[]>(`${URL}/bustype`).pipe(retry(0),
+      catchError(this.errorHandler)
     );
   }
 
+  errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Get server-side message
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
 
-errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
-  let errorMessage = '';
-  if (error.error instanceof ErrorEvent) {
-    // Get client-side error
-    errorMessage = error.error.message;
-  } else {
-    // Get server-side message
-    errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    switch (error.status) {
+      case 200: console.log("200's");
+
+        break;
+      case 401:
+        break;
+      case 403:
+        break;
+      case 0:
+      case 400:
+      case 405:
+      case 406:
+      case 409:
+      case 500:
+        break;
+    }
+
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
-
-  switch (error.status) {
-    case 200:    console.log("200's");
-
-      break;
-    case 401:
-      break;
-    case 403:
-      break;
-    case 0:
-    case 400:
-    case 405:
-    case 406:
-    case 409:
-    case 500:
-      break;
-  }
-
-  console.log(errorMessage);
-  return throwError(errorMessage);
-}
 
 
 

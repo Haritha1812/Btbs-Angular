@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ToasterService } from 'src/app/services/toaster.service';
@@ -34,11 +33,9 @@ export class AddCustomerComponent implements OnInit {
 
     this.CustomerForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5),]],
-
       password: ['', [Validators.required]],
       confirm_password: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-
       mobileNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
 
     })

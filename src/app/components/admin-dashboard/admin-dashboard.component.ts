@@ -10,24 +10,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AdminDashboardComponent implements OnInit {
 
 
-  constructor(public formBuilder:FormBuilder,public router: Router,public activatedRoute: ActivatedRoute, ) { }
+  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute,) { }
 
- 
+
 
   ngOnInit(): void {
   }
-  add(){
+  add() {
     this.router.navigate(['view'])
-   }
-  addbus(){
+  }
+  addbus() {
     this.router.navigate(['viewbus'])
-   }
-   addcus(){
-     
+  }
+  addcus() {
+
     this.router.navigate(['viewbook'])
-   }
-   logout(){
-     
+  }
+  logout() {
+
     this.router.navigate(['home'])
-   }
+  }
 }

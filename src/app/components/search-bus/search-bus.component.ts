@@ -6,7 +6,7 @@ import { Bus } from 'src/app/models/bus';
 import { Route } from 'src/app/models/route';
 import { BusService } from 'src/app/services/bus.service';
 import { RouteService } from 'src/app/services/route.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, HashLocationStrategy } from '@angular/common';
 import { SeatService } from 'src/app/services/seat.service';
 import { Seat } from 'src/app/models/seat';
 import { PassengerService } from 'src/app/services/passenger.service';
@@ -16,6 +16,7 @@ import { Customer } from 'src/app/models/customer';
 import { BookTicket } from 'src/app/models/book-ticket';
 import { BookTicketService } from 'src/app/services/book-ticket.service';
 import Swal from 'sweetalert2';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-search-bus',
@@ -31,7 +32,7 @@ export class SearchBusComponent implements OnInit {
   totalfare: number
   routes: Route[]
   buses: Bus[]
-  bus:Bus
+  bus: Bus
   sName: string
   seats: Observable<Seat[]> | any
   passenger: Passenger
@@ -57,7 +58,11 @@ export class SearchBusComponent implements OnInit {
   isdisabled: boolean;
   booktickets?: BookTicket
   no = "No"
-  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService, public passengerService: PassengerService, public customerService: CustomerService, public bookService: BookTicketService) { }
+
+  fromSet: Set<string> = new Set<string>();
+  toSet: Set<string> = new Set<string>();
+
+  constructor(public formBuilder: FormBuilder, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService, public passengerService: PassengerService, public customerService: CustomerService, public bookService: BookTicketService, public toaster: ToasterService) { }
   ngOnInit(): void {
 
     console.log(this.minDate);
@@ -88,7 +93,21 @@ export class SearchBusComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.routes = res.data;
+
+        console.log(this.routes.length)
         this.searchbus = true
+        for (var i = 0; i < this.routes.length; i++) {
+          this.fromSet.add(this.routes[i].fromLocation)
+
+        }
+        for (var i = 0; i < this.routes.length; i++) {
+          this.toSet.add(this.routes[i].toLocation)
+
+        }
+
+        console.log(this.fromSet)
+
+        console.log(this.toSet)
       })
 
     this.customerService.getCustomerById(this.cusId)
@@ -137,9 +156,7 @@ export class SearchBusComponent implements OnInit {
     this.passengerService.addPassenger(this.PassengerForm.value)
       .subscribe(res => {
         console.log(res)
-
-        console.log();
-        this.successMessage = "Passenger Added successfully" + this.passenger.name;
+        this.toaster.success('Passenger :'+this.PassengerForm.value.name+' added','Done')
         console.log("#######Passenger added successfully ");
 
       },
@@ -150,7 +167,6 @@ export class SearchBusComponent implements OnInit {
 
   }
   search() {
-    this.buslist = true
     console.log(this.BusForm.value)
     this.from = this.BusForm.value.fromLocation
     this.to = this.BusForm.value.toLocation
@@ -163,10 +179,15 @@ export class SearchBusComponent implements OnInit {
       .subscribe(res => {
         console.log(res)
         this.buses = res.data
-        
-        this.from = this.buses[0].route.fromLocation
-        this.to = this.buses[0].route.toLocation
-        console.log(this.buses[0].route.fromLocation)
+
+        this.buslist = true
+        // this.from = this.buses[0].route.fromLocation
+        //this.to = this.buses[0].route.toLocation
+        // console.log(this.buses[0].route.fromLocation)
+      }, error => {
+
+        this.buslist = false
+        this.toaster.error("No bus found for this location");
       })
 
 

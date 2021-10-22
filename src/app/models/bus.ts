@@ -3,21 +3,12 @@ import { Route } from 'src/app/models/route';
 
 export class Bus {
 	id: number
-
-	name: string
-
+	name?: string
 	busType: string
-
 	numberOfSeats: number
-
-
-	route = new Route();
-
+	route: Route
 	date: Date
-
-
 	departureTime: Time
-
 	arrivalTime: Time
 	fare: number
 }

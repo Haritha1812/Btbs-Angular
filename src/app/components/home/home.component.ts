@@ -14,6 +14,9 @@ import Swal from 'sweetalert2';
 })
 export class HomeComponent implements OnInit {
 
+
+
+
   admin: boolean
   front: boolean
   adminlogin: boolean
@@ -37,14 +40,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.login = true
     this.customerLoginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required,Validators.email]],
       password: ['', Validators.required]
     })
     this.ForgetForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['',[ Validators.required,Validators.email]],
 
     })
-    console.log("hhhhhhhhhhhhhhhhhh")
   }
   customerLogin() {
 
@@ -54,33 +56,25 @@ export class HomeComponent implements OnInit {
     if (this.email == "Admin" && this.password == "Admin@123") {
       //this.successMessage = "Login Successful";
       console.log("Login Successful");
-      this.router.navigate(['admin'])
+      this.router.navigate(['viewbook'])
     }
     else {
       this.customerService.getCustomerByEmailAndPassword(this.customerLoginForm.get('email').value, this.customerLoginForm.get('password').value)
         .subscribe(res => {
           this.customers = res
           this.customers = this.customers.data
+          this.cusId = this.customers.id
 
           if (this.customers) {
             console.log("Login Successfully!!");
 
-            this.customerService.getCustomerByEmail(this.email)
-              .subscribe(res => {
-                console.log(res);
-                this.customers = res
-                this.customers = this.customers.data
-                console.log(this.customers.id)
-                this.cusId = this.customers.id;
+            this.toaster.success('Success', 'Login Successful');
+            this.router.navigate(['search', this.cusId])
 
-                this.toaster.success('Success', 'Login Successful');
-                this.router.navigate(['cusop', this.cusId])
-              })
           }
 
 
           else {
-            this.toaster.error('Wrong!', 'Your Login details are not matched!');
           }
 
         }
@@ -89,6 +83,8 @@ export class HomeComponent implements OnInit {
 
             this.errorMessage = "You Entered Incorrect Credentials"
             console.log(error, "!!!!!!!!!!!!!!!")
+
+            this.toaster.error('Wrong!', 'Your Login details are not matched!');
           },
         )
     }
@@ -119,20 +115,17 @@ export class HomeComponent implements OnInit {
           if (this.customers != null) {
             this.toaster.success('Success', 'Password has been sent to your mail');
             this.router.navigate(['home'])
+            this.login = true
+            this.forgetPass = false
           }
 
 
         }, error => {
-          this.toaster.error('Wrong!', 'Your Login details are not matched!');
+          this.toaster.error('Wrong!', 'No account registered with this mail!');
           this.router.navigate(['home']);
         }
       )
 
-  }
-  sucess() {
-    Swal.fire('Done', 'Password has been sent to your mail', 'success')
-    this.login = true
-    this.forgetPass = false
   }
 
   search() {

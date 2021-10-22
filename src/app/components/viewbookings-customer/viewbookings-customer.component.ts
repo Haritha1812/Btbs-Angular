@@ -1,24 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { BusService } from 'src/app/services/bus.service';
-import { RouteService } from 'src/app/services/route.service';
-
-import { SeatService } from 'src/app/services/seat.service';
-
-import { PassengerService } from 'src/app/services/passenger.service';
-
-import { CustomerService } from 'src/app/services/customer.service';
-
-import { BookTicket } from 'src/app/models/book-ticket';
-import { BookTicketService } from 'src/app/services/book-ticket.service';
-import { Observable } from 'rxjs';
-import { Passenger } from 'src/app/models/passenger';
-import Swal from 'sweetalert2';
 import { Time } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { Observable } from 'rxjs';
+import { BookTicket } from 'src/app/models/book-ticket';
+import { Passenger } from 'src/app/models/passenger';
+import { BookTicketService } from 'src/app/services/book-ticket.service';
+import { BusService } from 'src/app/services/bus.service';
+import { CustomerService } from 'src/app/services/customer.service';
+import { PassengerService } from 'src/app/services/passenger.service';
+import { RouteService } from 'src/app/services/route.service';
+import { SeatService } from 'src/app/services/seat.service';
 import { ToasterService } from 'src/app/services/toaster.service';
+
+
+
+
 @Component({
   selector: 'app-viewbookings-customer',
   templateUrl: './viewbookings-customer.component.html',
@@ -26,11 +25,11 @@ import { ToasterService } from 'src/app/services/toaster.service';
 })
 export class ViewbookingsCustomerComponent implements OnInit {
 
-  constructor(public formBuilder: FormBuilder,public toaster:ToasterService, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService, public passengerService: PassengerService, public customerService: CustomerService, public bookService: BookTicketService) { }
+  constructor(public formBuilder: FormBuilder, public toaster: ToasterService, public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService, public passengerService: PassengerService, public customerService: CustomerService, public bookService: BookTicketService) { }
   bookTickets: BookTicket
   booking: any[] = []
   bookings: BookTicket[]
-  
+
   passengers: Observable<Passenger>[] | any
   showpassenger: boolean
   view: boolean
@@ -72,10 +71,10 @@ export class ViewbookingsCustomerComponent implements OnInit {
             this.passengers = res
             this.passengers = this.passengers.data
           })
-      },error=>{
-             this.toaster.error("No data's found")
+      }, error => {
+        this.toaster.error("No data's found")
       }
-      
+
       )
   }
   pageChanged(event: any) {
@@ -108,19 +107,19 @@ export class ViewbookingsCustomerComponent implements OnInit {
       })
   }
   viewDetail(b: BookTicket) {
-    
-        this.bookTickets = b
-        console.log(this.bookTickets)
-        this.viewid = true
-        this.view = false
-        this.passengerService.getByBusidandcusid(this.bookTickets.bus.id, this.bookTickets.customer.id)
-          .subscribe(res => {
-            console.log(res);
-            this.passengers = res
-            this.passengers = this.passengers.data
 
-          })
-    
+    this.bookTickets = b
+    console.log(this.bookTickets)
+    this.viewid = true
+    this.view = false
+    this.passengerService.getByBusidandcusid(this.bookTickets.bus.id, this.bookTickets.customer.id)
+      .subscribe(res => {
+        console.log(res);
+        this.passengers = res
+        this.passengers = this.passengers.data
+
+      })
+
   }
   viewPass() {
     this.showpassenger = true
@@ -133,29 +132,30 @@ export class ViewbookingsCustomerComponent implements OnInit {
 
     this.router.navigate(['cusop', this.cusId])
   }
-  download(b:BookTicket) {
+  download(b: BookTicket) {
+    this.view = false;
     this.invoice = true
-    this.bookTickets=b
-        this.passengerService.getByBusidandcusid(this.bookTickets.bus.id, this.bookTickets.customer.id)
-          .subscribe(res => {
-            console.log(res);
-            this.passengers = res
+    this.bookTickets = b
+    this.passengerService.getByBusidandcusid(this.bookTickets.bus.id, this.bookTickets.customer.id)
+      .subscribe(res => {
+        console.log(res);
+        this.passengers = res
 
-            this.passengers = this.passengers.data
-            this.numberOfTickets = this.passengers.length
-          })
-        this.busName = this.bookTickets.bus.name;
-        this.bustype = this.bookTickets.bus.busType;
-        this.journeyDate = this.bookTickets.bookingDate;
-        this.arrivalStation = this.bookTickets.bus.route.fromLocation;
-        this.departureStation = this.bookTickets.bus.route.toLocation;
-        this.arrivalTime = this.bookTickets.bus.arrivalTime;
-        this.departureTime = this.bookTickets.bus.departureTime;
-        this.totalAmount = this.bookTickets.billAmount;
-        this.name =  b.customer.name;
+        this.passengers = this.passengers.data
+        this.numberOfTickets = this.passengers.length
+      })
+    this.busName = this.bookTickets.bus.name;
+    this.bustype = this.bookTickets.bus.busType;
+    this.journeyDate = this.bookTickets.bookingDate;
+    this.arrivalStation = this.bookTickets.bus.route.fromLocation;
+    this.departureStation = this.bookTickets.bus.route.toLocation;
+    this.arrivalTime = this.bookTickets.bus.arrivalTime;
+    this.departureTime = this.bookTickets.bus.departureTime;
+    this.totalAmount = this.bookTickets.billAmount;
+    this.name = b.customer.name;
 
 
-``
+    ``
   }
   public openPDF(): void {
     let DATA = document.getElementById('htmlData');
@@ -170,7 +170,7 @@ export class ViewbookingsCustomerComponent implements OnInit {
       let position = 0;
       PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
 
-      PDF.save('Invoice.pdf');
+      PDF.save('Booking-Invoice.pdf');
     });
   }
   searcht() {
@@ -183,6 +183,10 @@ export class ViewbookingsCustomerComponent implements OnInit {
   home() {
 
     this.router.navigate(['cusop', this.cusId])
+  }
+  exit() {
+    this.view = true;
+    this.invoice = false
   }
 
 }

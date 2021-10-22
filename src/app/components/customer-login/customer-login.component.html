@@ -3,62 +3,69 @@
 <br>
 
 
-<div *ngIf ="login">
-<div class="loginForm">
-    
-<h3 style="color: rgb(1, 0, 2); margin-left: 700px;font-size:x-large;"><b>Customer Login</b></h3>
-    <div class="main">
-        <br>
-        <h1 style="color:black"><b></b></h1>
-        <div class="container">
-            <form [formGroup]="customerLoginForm" (ngSubmit)="customerLogin()">
-                <fieldset>
-                    <div class="form-row">
-                        <div class="form-group col-md-4"></div>
-                        <div class="form-group col-md-4">
-                            <i class="fa fa-user fa-lg"></i> &nbsp;
-                            <label style="font-weight: bold; font-size: 20px; color: black;">User Email </label>
-                            <input type="text" name="email" id="email" placeholder="Enter Customer email" formControlName="email" style="color:black;"
-                                class="form-control border border-primary" />
-                            <div *ngIf="customerLoginForm.get('email').hasError('required') && customerLoginForm.get('email').dirty">
-                                <b> <font color = "red">Customer email is Required</font></b>
-                           </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4"></div>
-                        <div class="form-group col-md-4">
-                            <i class="fa fa-key fa-lg"></i> &nbsp;
-                            <label style="font-weight: bold; font-size: 20px; color: black;">Password </label>
-                            <input type="password" name="password" id="password" formControlName="password"
+<div *ngIf="login">
+    <div class="loginForm">
 
-                                style="color:black;"  placeholder="Enter Password" class="form-control border border-primary" />
-                            <div *ngIf="customerLoginForm.get('password').hasError('required') && customerLoginForm.get('password').dirty">
-                                <b> <font color = "red">Password is Required</font></b>
+        <h3 style="color: rgb(1, 0, 2); margin-left: 700px;font-size:x-large;"><b>Customer Login</b></h3>
+        <div class="main">
+            <br>
+            <h1 style="color:black"><b></b></h1>
+            <div class="container">
+                <form [formGroup]="customerLoginForm" (ngSubmit)="customerLogin()">
+                    <fieldset>
+                        <div class="form-row">
+                            <div class="form-group col-md-4"></div>
+                            <div class="form-group col-md-4">
+                                <i class="fa fa-user fa-lg"></i> &nbsp;
+                                <label style="font-weight: bold; font-size: 20px; color: black;">User Email </label>
+                                <input type="text" name="email" id="email" placeholder="Enter Customer email"
+                                    formControlName="email" style="color:black;"
+                                    class="form-control border border-primary" />
+                                <div
+                                    *ngIf="customerLoginForm.get('email').hasError('required') && customerLoginForm.get('email').dirty">
+                                    <b>
+                                        <font color="red">Customer email is Required</font>
+                                    </b>
+                                </div>
                             </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4"></div>
+                            <div class="form-group col-md-4">
+                                <i class="fa fa-key fa-lg"></i> &nbsp;
+                                <label style="font-weight: bold; font-size: 20px; color: black;">Password </label>
+                                <input type="password" name="password" id="password" formControlName="password"
+                                    style="color:black;" placeholder="Enter Password"
+                                    class="form-control border border-primary" />
+                                <div
+                                    *ngIf="customerLoginForm.get('password').hasError('required') && customerLoginForm.get('password').dirty">
+                                    <b>
+                                        <font color="red">Password is Required</font>
+                                    </b>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+                        <div class="btn-text-center" style="margin-left:400px">
+                            <button type="submit" class="btn btn-primary"
+                                [disabled]="customerLoginForm.invalid">Log-in</button> &nbsp;
+                            <button class="btn btn-warning" (click)="sign_up()">Sign-Up</button> &nbsp;
+                            <button class="btn btn-danger" (click)="forget()">Forget Password</button>&nbsp;
+                            <br><br>
 
                         </div>
-                    </div>
-
+                    </fieldset>
                     <br>
-                    <br>
-                    <div class="btn-text-center" style="margin-left:400px">
-                        <button type="submit" class="btn btn-primary"
-                            [disabled] ="customerLoginForm.invalid" >Log-in</button> &nbsp;
-                        <button class="btn btn-warning" (click)="sign_up()">Sign-Up</button> &nbsp;
-                        <button class="btn btn-danger"  (click)="forget()">Forget Password</button>&nbsp;
-                        <br><br>
-
-                    </div>
-                </fieldset>
-                <br>
-            </form>
-            <!-- <button class="btn btn-dark btn-lg" (click)="back()">Back</button>&nbsp; -->
+                </form>
+                <!-- <button class="btn btn-dark btn-lg" (click)="back()">Back</button>&nbsp; -->
+            </div>
         </div>
     </div>
 </div>
-</div>
-<div *ngIf = "forgetPass">
+<div *ngIf="forgetPass">
     <form [formGroup]="ForgetForm" (ngSubmit)="forgetPassword()">
         <fieldset>
             <div class="form-row">
@@ -66,18 +73,21 @@
                 <div class="form-group col-md-4">
                     <i class="fa fa-user fa-lg"></i> &nbsp;
                     <label style="font-weight: bold; font-size: 20px; color: black;"> Email </label>
-                    <input type="text" name="email" id="email" placeholder="Enter Customer email" formControlName="email" style="color:black;"
-                        class="form-control border border-primary" />
-                    <div *ngIf="customerLoginForm.get('email').hasError('required') && customerLoginForm.get('email').dirty">
-                        <b> <font color = "red">Customer email is Required</font></b>
-                   </div>
+                    <input type="text" name="email" id="email" placeholder="Enter Customer email"
+                        formControlName="email" style="color:black;" class="form-control border border-primary" />
+                    <div
+                        *ngIf="customerLoginForm.get('email').hasError('required') && customerLoginForm.get('email').dirty">
+                        <b>
+                            <font color="red">Customer email is Required</font>
+                        </b>
+                    </div>
                 </div>
             </div>
         </fieldset>
         <br>
         <span>
-        <button class="btn btn-primary" style="margin-left:750px">Forget Password</button>
-        <button class="btn btn-primary" style="margin-left:750px" (click)="back()">Back</button>&nbsp;
-    </span>
+            <button class="btn btn-primary" style="margin-left:750px">Forget Password</button>
+            <button class="btn btn-primary" style="margin-left:750px" (click)="back()">Back</button>&nbsp;
+        </span>
     </form>
 </div>

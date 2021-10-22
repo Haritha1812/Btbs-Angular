@@ -2,18 +2,12 @@
 
 <div *ngIf="viewid">
     <br>
-
     <br>
-    <td>
-        <button style="margin-left: 1500px;" class="btn btn-info" (click)="back()">Back</button>
-    </td>
-    <br>
-    <h2 style="font-style: italic; font-size: xx-large ;margin-left: 650px;"><b>Booking Details</b></h2>
 
+    <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 650px;">Booking Details</h2>
     <div class="reglist">
         <div>
-            <table align="center" class="center">
-
+            <table align="center">
 
                 <tr>
                     <th>Booking Date </th>
@@ -111,7 +105,6 @@
                             <tbody>
 
                                 <tr *ngFor="let p of passengers">
-                                    <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
                                     <td>
                                         {{p.name}}
                                     </td>
@@ -132,24 +125,27 @@
 
 
                             <br>
-
-                            <!-- </div> -->
                         </table>
 
                     </div>
                 </div>
             </div>
+            <br>
+            <td>
 
+                <button style="margin-left: 700px;" class="btn btn-primary" (click)="backadmin()">Back</button>
+            </td>
         </div>
     </div>
 </div>
 
 <div *ngIf="view">
     <br>
-    <h2 style="font-style: italic; font-size: x-large ;margin-left: 600px;">Booking Details</h2>
 
+    <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 650px;">Booking Details</h2>
+    <br>
     <div class="reglist">
-        <div class="search-hero" style="width: 450px; margin-left: 550px;">
+        <div class="search-hero" style="width: 450px; margin-left: 600px;">
 
             <input style="width: 300px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search"
                 [(ngModel)]="search" autocomplete="off" placeholder="&#xF002;Search by  Name or route or place">
@@ -167,21 +163,14 @@
                             <th>From Location</th>
                             <th>To Location</th>
                             <th>Number of Tickets</th>
-                            <th>Bill Amount</th>
+                            <th>Total Bill</th>
                             <th>Booking Status</th>
                             <th>Details</th>
-                            <th>Requests</th>
-
-                            <th>Reject</th>
-                            <!-- <th>Edit</th>
-                <th>Delete</th> -->
                         </tr>
                     </thead>
                     <tbody>
 
                         <tr *ngFor="let b of booking|paginate: config|filter:search">
-                            <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
-
                             <td>
                                 {{b.customer.name}}
                             </td>
@@ -211,31 +200,18 @@
                                 <p [ngStyle]="{'color':b.bookingStatus === 'Pending' ? 'red' : 'green' }">
                                     {{b.bookingStatus}}</p>
                             </td>
-                            <!-- <!-- <td>
-       
-                    <button  class="btn btn-success" (click)="edit(b.id)">Edit</button>
-                </td> -->
                             <td>
 
-                                <button class="btn btn-info" (click)="viewDetails(b)">View </button>
+                                <button class="btn btn-primary" (click)="viewDetails(b)">View </button>
                             </td>
 
 
-                            <td>
-                                <button class="btn btn-success" (click)="updateStatus(b.id,b.bus.id,b.customer.id)">
-                                    Approve</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" (click)="delete(b.id)"> Reject</button>
-                            </td>
-                            <!-- </div> -->
                         </tr>
                     </tbody>
 
 
                     <br>
 
-                    <!-- </div> -->
                 </table>
                 <br>
                 <div style="margin-left: 600px;">

@@ -26,4 +26,10 @@ font-weight: 600;
   {
     background-color: burlywood;
   }
-  
+  .p-viewer{
+    float: right;
+    margin-top: -55px;
+    position: relative;
+    z-index: 1;
+    cursor:pointer;
+  }

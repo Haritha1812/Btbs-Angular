@@ -11,28 +11,28 @@ export class ToasterService {
   options: IndividualConfig;
   constructor(
     private toastr: ToastrService
-) {
+  ) {
     this.options = this.toastr.toastrConfig;
     this.options.positionClass = 'toast-top-center';
-    this.options.timeOut = 1500;
-}
+    this.options.timeOut = 3000;
+  }
 
-showToast(title, message, type) {
+  showToast(title, message, type) {
     this.toastr.show(message, title, this.options, 'toast-' + type);
-}
+  }
 
-  success(title:string,message?:string){
-    this.toastr.success(title,message,this.options);
-}
-warning(title:string,message?:string){
-  this.toastr.warning(title,message);
-}
-info(title:string,message?:string){
-  this.toastr.info(title,message);
-}
-error(title:string,message?:string){
-  this.toastr.error(title,message);
-}
+  success(title: string, message?: string) {
+    this.toastr.success(title, message, this.options);
+  }
+  warning(title: string, message?: string) {
+    this.toastr.warning(title, message);
+  }
+  info(title: string, message?: string) {
+    this.toastr.info(title, message);
+  }
+  error(title: string, message?: string) {
+    this.toastr.error(title, message);
+  }
 
 
 }

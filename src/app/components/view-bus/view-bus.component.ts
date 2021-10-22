@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BookTicket } from 'src/app/models/book-ticket';
 import { Bus } from 'src/app/models/bus';
+import { BookTicketService } from 'src/app/services/book-ticket.service';
 import { BusService } from 'src/app/services/bus.service';
-import { RouteService } from 'src/app/services/route.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 import Swal from 'sweetalert2';
+import { EditBusComponent } from '../edit-bus/edit-bus.component';
+import { EditallBusComponent } from '../editall-bus/editall-bus.component';
 
 @Component({
   selector: 'app-view-bus',
@@ -13,15 +17,58 @@ import Swal from 'sweetalert2';
 })
 export class ViewBusComponent implements OnInit {
 
-  constructor(public router: Router, public activatedRoute: ActivatedRoute, public busService: BusService) { }
+
+  constructor(public router: Router, public bookService: BookTicketService, public dialog: MatDialog, public activatedRoute: ActivatedRoute, public busService: BusService, public toaster: ToasterService) { }
   search: any
   config: any
+
   buses: Bus[]
+  busId: number
+  bookTicket: BookTicket[]
   ngOnInit(): void {
     this.viewAllbuses();
+
   }
-  edit(busId: number) {
-    this.router.navigate(['editbus', busId])
+  edit(bus: Bus) {
+
+    this.busId = bus.id
+    console.log(this.busId)
+    this.bookService.getBybusId(bus.id).subscribe(
+      res => {
+        console.log(res)
+        this.bookTicket = res.data
+        if (this.bookTicket.length != 0) {
+          this.toaster.info("This bus has customer bookings.Could edit only timings");
+
+          localStorage.setItem('bus', JSON.stringify(bus))
+          const dialogConfig = new MatDialogConfig();
+
+          dialogConfig.disableClose = false;
+
+          dialogConfig.autoFocus = true;
+
+          this.dialog.open(EditBusComponent, {
+
+          });
+        }
+      }
+      , error => {
+        console.log(this.busId)
+        /*  const dialogConfig = new MatDialogConfig();
+      
+          dialogConfig.disableClose = false;
+      
+          dialogConfig.autoFocus = true;
+      
+          this.dialog.open(EditallBusComponent, {
+      
+          }); */
+        this.router.navigate(['editall', this.busId])
+      }
+
+    )
+
+    //this.router.navigate(['editbus', busId])
   }
 
 
@@ -54,13 +101,14 @@ export class ViewBusComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
         console.log("#######deleted successfully ");
-
+        this.toaster.success("Bus has been deleted", "Success")
         this.viewAllbuses();
 
 
 
       },
         error => {
+          this.toaster.error("This bus has customer bookings.Couldn't perform operation");
           this.refresh();
           this.viewAllbuses();
 
@@ -87,11 +135,7 @@ export class ViewBusComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.delete(busid)
-        Swal.fire(
-          'Done!',
-          'Bus details deleted successfully.',
-          'success'
-        )
+
         this.refresh();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(

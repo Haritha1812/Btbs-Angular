@@ -24,6 +24,7 @@ export class AddBusComponent implements OnInit {
   rId: number
   numberOfSeats: number
   routes: Route[]
+  bustype: [number, string][] = [];
   seats: Seat
   rName: string;
   minDate = new Date();
@@ -35,8 +36,8 @@ export class AddBusComponent implements OnInit {
     console.log(this.minDate);
     this.BusForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
-      busType: ['', [Validators.required, Validators.minLength(5)]],
-      route: ['', [Validators.required, Validators.minLength(5)]],
+      busType: ['', [Validators.required,]],
+      route: ['', [Validators.required]],
       numberOfSeats: ['', [Validators.required]],
       date: ['', [Validators.required]],
       departureTime: ['', [Validators.required]],
@@ -52,6 +53,12 @@ export class AddBusComponent implements OnInit {
         console.log(this.routes)
       })
 
+    this.busService.getBusTypes()
+      .subscribe(res => {
+        console.log(res)
+        this.bustype = res.data;
+        console.log(this.bustype)
+      })
 
   }
 

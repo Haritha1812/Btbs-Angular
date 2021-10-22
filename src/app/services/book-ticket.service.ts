@@ -16,8 +16,8 @@ export class BookTicketService {
       'Content-Type': 'application/json'
     })
   }
-  
-  constructor(public http:HttpClient) { }
+
+  constructor(public http: HttpClient) { }
 
   addTicket(bookTicket: BookTicket): Observable<BookTicket> {
     return this.http.post<BookTicket>(`${URL}`, bookTicket, this.httpOptions)
@@ -26,27 +26,35 @@ export class BookTicketService {
         catchError(this.errorHandler)
       )
   }
-  getAllBookings() : Observable<any>{
+  getAllBookings(): Observable<any> {
     return this.http.get<BookTicket[]>(`${URL}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
     );
   }
-  getById(id:number) : Observable<any>{
+  getById(id: number): Observable<any> {
     return this.http.get<BookTicket>(`${URL}/${id}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
     );
   }
-  getByCusId(id:number) : Observable<any>{
+  getByCusId(id: number): Observable<any> {
     return this.http.get<BookTicket>(`${URL}/cus/${id}`).pipe(retry(0),
-    catchError(this.errorHandler)
+      catchError(this.errorHandler)
     );
   }
-  updateStatus(id: number,bid:number,cid:number): Observable<BookTicket> {
-    return this.http.put<BookTicket>(`${URL}/status/${id}/${bid}/${cid}`,this.httpOptions)
+  getBybusId(id: number): Observable<any> {
+    return this.http.get<BookTicket>(`${URL}/bus/${id}`).pipe(retry(0),
+      catchError(this.errorHandler)
+    );
+  }
+  updateStatus(id: number, bid: number, cid: number): Observable<BookTicket> {
+    return this.http.put<BookTicket>(`${URL}/status/${id}/${bid}/${cid}`, this.httpOptions)
       .pipe(
         retry(0),
         catchError(this.errorHandler)
       )
+  }
+  deleteticket(id: number): Observable<BookTicket> {
+    return this.http.delete<BookTicket>(`${URL}/reject/${id}`)
   }
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
@@ -57,10 +65,10 @@ export class BookTicketService {
       // Get server-side message
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-  
+
     switch (error.status) {
-      case 200:    console.log("200's");
-  
+      case 200: console.log("200's");
+
         break;
       case 401:
         break;
@@ -74,11 +82,11 @@ export class BookTicketService {
       case 500:
         break;
     }
-  
+
     console.log(errorMessage);
     return throwError(errorMessage);
   }
-  
-  
+
+
 
 }

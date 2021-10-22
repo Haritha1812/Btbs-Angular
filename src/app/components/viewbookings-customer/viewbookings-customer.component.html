@@ -2,296 +2,317 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+    aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item ">
-          <a  class="fa fa-home" (click)="home()"> &nbsp;Home &nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </li>
-          <li class="nav-item ">
-            <a class="fa fa-search"  (click)="searcht()">&nbsp;&nbsp;Search Route&nbsp;&nbsp;&nbsp;&nbsp;</a>
-          </li>
-          <li class="nav-item ">
-            <a class="fa fa-book" (click)="viewt()">&nbsp;&nbsp;View Bookings&nbsp;&nbsp;&nbsp;&nbsp;</a>
-          </li>
-        </ul>
-        
-      
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="fa fa-home" (click)="home()"> &nbsp;Home &nbsp;&nbsp;&nbsp;&nbsp;</a>
+      </li>
+      <li class="nav-item ">
+        <a class="fa fa-search" (click)="searcht()">&nbsp;&nbsp;Search Route&nbsp;&nbsp;&nbsp;&nbsp;</a>
+      </li>
+      <li class="nav-item ">
+        <a class="fa fa-book" (click)="viewt()">&nbsp;&nbsp;View Bookings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+      </li>
+    </ul>
+
+
   </div>
 </nav>
-<div *ngIf ="view">
-    <h2 style="font-style: italic; font-size: x-large ;margin-left: 600px;">Booking Details</h2>
- 
-    <div class="reglist">
-        <div class="search-hero" style="width: 450px; margin-left: 550px;">
-    
-            <input style="width: 300px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" 
-      
-                autocomplete="off" placeholder="&#xF002;Search by  Name or route or place">
-      
-          </div><br>
-        <div>
-            <table class="table table-striped" >
+<div *ngIf="view">
+  <br>
+  <br>
+  <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 630px;">Booking Details</h2>
+  <br>
+  <div class="reglist">
+    <div class="search-hero" style="width: 450px; margin-left: 590px;">
+
+      <input style="width: 300px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search"
+        [(ngModel)]="search" autocomplete="off" placeholder="&#xF002;Search by  Name or route or place">
+
+    </div><br>
+    <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Bus Name</th>
+            <th>Journey Date</th>
+            <th>From Location</th>
+            <th>To Location</th>
+            <th>Number of Tickets</th>
+            <th> Bill Amount</th>
+            <th>Booking Status</th>
+            <th>View Passenger Details</th>
+            <th>Download Invoice</th>
+            <!-- <th>Edit</th>
+                    <th>Delete</th> -->
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let b of bookings|paginate: config|filter:search">
+            <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
+
+           
+            <td>
+              {{b.bus.name}}
+            </td>
+            <td>
+              {{b.bus.date| date: 'dd-MM-yyyy'}}
+            </td>
+            <td>
+              {{b.bus.route.fromLocation}}
+            </td>
+            <td>
+              {{b.bus.route.toLocation}}
+            </td>
+            <td>
+              {{b.numberOfTickets}}
+            </td>
+            <td>
+              {{b.billAmount}}
+            </td>
+            <td>
+              <p [ngStyle]="{'color':b.bookingStatus === 'Pending' ? 'red' : 'green' }"> {{b.bookingStatus}}</p>
+            </td>
+
+            <td>
+
+              <button class="btn btn-primary" (click)="viewDetail(b)">View</button>
+
+
+            </td>
+            <td>
+
+              <button class="btn btn-primary" (click)="download(b)"
+                [disabled]="b.bookingStatus === 'Pending'">Download</button>
+            </td>
+
+            <!-- </div> -->
+          </tr>
+        </tbody>
+
+
+        <br>
+
+        <!-- </div> -->
+      </table>
+      <div style="margin-left: 600px;">
+        <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="viewid">
+  <br>
+  <td>
+    <button style="margin-left: 1500px;" class="btn btn-info" (click)="backtocus()"> Back</button>
+  </td>
+  <br>
+  <h2 style="font-style: italic; font-size: xx-large ;margin-left: 650px;"><b>Booking Details</b></h2>
+
+
+  <div class="reglist">
+    <div>
+      <table align="center">
+
+
+        <tr>
+          <th>Booking Date </th>
+          <td>:</td>
+          <td>{{bookTickets.bookingDate| date: 'dd-MM-yyyy'}}</td>
+        </tr>
+        <tr>
+          <th> Name </th>
+          <td>:</td>
+          <td>{{bookTickets.customer.name}}</td>
+        </tr>
+        <tr>
+          <th> Email Id </th>
+          <td>:</td>
+          <td>{{bookTickets.customer.email}}</td>
+        </tr>
+        <tr>
+          <th> Phone Number</th>
+          <td>:</td>
+          <td>{{bookTickets.customer.mobileNumber}}</td>
+        </tr>
+
+
+
+        <tr>
+          <th>Bus Name </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.name}}</td>
+        </tr>
+        <tr>
+          <th>Number of Seats </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.numberOfSeats}}</td>
+        </tr>
+        <tr>
+          <th>From Location </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.route.fromLocation}}</td>
+        </tr>
+        <tr>
+          <th>To Location </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.route.toLocation}}</td>
+        </tr>
+        <tr>
+          <th>Arrival Time </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.arrivalTime}}</td>
+        </tr>
+        <tr>
+          <th>Departure Time </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.departureTime}}</td>
+        </tr>
+        <tr>
+          <th>Bus Fare </th>
+          <td>:</td>
+          <td>{{bookTickets.bus.fare}}</td>
+        </tr>
+        <tr>
+          <th>Number Of Tickets </th>
+          <td>:</td>
+          <td>{{bookTickets.numberOfTickets}}</td>
+        </tr>
+        <tr>
+          <th>Bill Amount </th>
+          <td>:</td>
+          <td>{{bookTickets.billAmount}}</td>
+        </tr>
+        <br>
+
+
+      </table>
+      <br>
+      <br>
+      <button style="margin-left: 700px;" class="btn btn-primary" (click)="viewPass()">View Passengers</button>
+      <br>
+      <br>
+      <div *ngIf=showpassenger>
+
+        <div class="reglist">
+          <div>
+            <table class="table table-striped" style="margin-left: 550px;width: 500px; border:2px">
               <thead>
                 <tr>
-                     <th> Name</th>
-                    <th> Mobile</th>
-                    <th>Bus Name</th>
-                    <th>Journey Date</th>
-                    <th>From Location</th>
-                    <th>To Location</th>
-                    <th>Number of Tickets</th>
-                    <th>Total Bill</th>
-                    <th>Booking Status</th>
-                    <th>View Passenger Details</th>
-                    <th>Download Invoice</th>
-                    <!-- <th>Edit</th>
-                    <th>Delete</th> -->
-              </tr>
+                  <th>Passenger Name</th>
+                  <th>Passenger Age</th>
+                  <th>Passenger Gender</th>
+                  <th>Seat Number</th>
+                </tr>
               </thead>
               <tbody>
-              
-                <tr *ngFor="let b of bookings|paginate: config|filter:search">
-                    <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
-                  
-                    <td>
-                       {{b.customer.name}}
-                     </td>
-                     <td>
-                         {{b.customer.mobileNumber}}
-                     </td>
-                 
-                     <td>
-                         {{b.bus.name}}
-                     </td>
-                     <td>
-                        {{b.bus.date| date: 'dd-MM-yyyy'}}
-                    </td>
-                    <td>
-                        {{b.bus.route.fromLocation}}
-                    </td>
-                    <td>
-                        {{b.bus.route.toLocation}}
-                    </td>
-                    <td>
-                        {{b.numberOfTickets}}
-                    </td>
-                    <td>
-                        {{b.billAmount}}
-                    </td>
-                    <td ><p
-                        [ngStyle]="{'color':b.bookingStatus === 'Pending' ? 'red' : 'green' }"> {{b.bookingStatus}}</p>
-                     </td>
-                   
-                     <td>
-           
-                        <button class ="btn btn-primary" (click)="viewDetail(b)">View</button>
-                        
-                      
-                    </td> 
-                    <td>
-           
-                        <button class ="btn btn-primary" (click)="download(b)" [disabled]="b.bookingStatus === 'Pending'">Download</button>
-                    </td> 
-                    
-                <!-- </div> -->
-                   </tr>
+
+                <tr *ngFor="let p of passengers">
+                  <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
+                  <td>
+                    {{p.name}}
+                  </td>
+                  <td>
+                    {{p.age}}
+                  </td>
+                  <td>
+                    {{p.gender}}
+                  </td>
+
+                  <td>
+                    {{p.seatNumber}}
+                  </td>
+
+
+                </tr>
               </tbody>
-            
-         
-          <br>
-        
-        <!-- </div> -->
-    </table>
-    <div style="margin-left: 600px;">
-      <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
-      </div>
-      <div style="margin-left: 550px;">
-      <button style="margin-left: 300px;" (click)="back()" class="btn btn-primary">Back</button>
-    </div>
-    </div>
-    </div>
-    </div>
 
 
-    <div *ngIf ="viewid">
-        <h2 align="center"> Booking Details</h2>
-     
-    <div class="reglist">
-        <div>
-            <table align="center">
-                
-               
-                <tr>
-                    <th>Booking  Date </th><td>:</td>
-                    <td>{{bookTickets.bookingDate| date: 'dd-MM-yyyy'}}</td>
-                </tr>
-                <tr>
-                    <th> Name </th><td>:</td>
-                    <td>{{bookTickets.customer.name}}</td>
-                </tr>
-                <tr>
-                    <th> Email Id </th><td>:</td>
-                    <td>{{bookTickets.customer.email}}</td>
-                </tr>
-                <tr>
-                    <th> Phone Number</th><td>:</td>
-                    <td>{{bookTickets.customer.mobileNumber}}</td>
-                </tr>
-              
-                <tr>
-                    <th>Bus Id </th><td>:</td>
-                    <td>{{bookTickets.bus.id}}</td>
-                </tr>
-              
-                <tr>
-                    <th>Bus Name </th><td>:</td>
-                    <td>{{bookTickets.bus.name}}</td>
-                </tr> 
-                <tr>
-                    <th>Number of Seats </th><td>:</td>
-                   <td>{{bookTickets.bus.numberOfSeats}}</td>
-                </tr>
-                <tr>
-                    <th>From Location </th><td>:</td>
-                    <td>{{bookTickets.bus.route.fromLocation}}</td>
-                </tr> 
-                <tr>
-                    <th>To Location </th><td>:</td>
-                    <td>{{bookTickets.bus.route.toLocation}}</td>
-                </tr>
-                <tr>
-                    <th>Arrival Time </th><td>:</td>
-                    <td>{{bookTickets.bus.arrivalTime}}</td>
-                </tr>
-                <tr>
-                    <th>Departure Time </th><td>:</td>
-                    <td>{{bookTickets.bus.departureTime}}</td>
-                </tr> 
-                <tr>
-                    <th>Bus Fare </th><td>:</td>
-                    <td>{{bookTickets.bus.fare}}</td>
-                </tr>
-                <tr>
-                    <th>Number Of Tickets </th><td>:</td>
-                    <td>{{bookTickets.numberOfTickets}}</td>
-                </tr>
-                <tr>
-                    <th>Bill Amount </th><td>:</td>
-                    <td>{{bookTickets.billAmount}}</td>
-                </tr>
-                <br>
-               
-                   
-        </table>
-        
-        <button style="margin-left: 700px;" class="btn btn-primary" (click)="viewPass()" >View Passengers</button>
-        <br>
-        <br>
-        <div *ngIf =showpassenger>
-        
-            <div class="reglist">
-                <div>
-                    <table class="table table-striped" style="margin-left: 550px;width: 500px; border:2px" >
-                      <thead>
-                        <tr>
-                            <th>Passenger Name</th>
-                             <th>Passenger Age</th>
-                            <th>Passenger Gender</th>
-                            <th>Seat Number</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      
-                        <tr *ngFor="let p of passengers">
-                            <!-- <div *ngIf ="b.bookingStatus==Pending"> -->
-                            <td>
-                                {{p.name}}
-                              </td>
-                            <td>
-                               {{p.age}}
-                             </td>
-                             <td>
-                                 {{p.gender}}
-                             </td>
-                         
-                             <td>
-                                 {{p.seatNumber}}
-                             </td>
-                           
-                          
-                           </tr>
-                      </tbody>
-                    
-                 
-                  <br>
-                
-                <!-- </div> -->
+              <br>
+
+              <!-- </div> -->
             </table>
-            
-            </div>
-            </div>
-            </div>
-    <td>
-        <button style="margin-left: 550px;" class="btn btn-primary" (click)="backtocus()"> Back</button>
-      </td>
+
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
+<div *ngIf="invoice">
+  <br>
+  <h2 style="font-style: italic; font-size: xx-large ;margin-left: 650px;"><b>Invoice Details</b></h2>
+
+
+  <div class="form-group"><br>
+
+    <div id="htmlData">
+
+      <table class="center" style="margin-left: 600px;">
+        {{errorMessage}}
+        <h1></h1>
+        <thead class="center">
+          <div style="margin-left: 100px;">
+            <tr><b>HMS Travels</b></tr>
+          </div>
+          <tr>Koyambedu,Chennai-600044</tr>
+          <tr>Contact No:043-789-344</tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="center"><b>Customer Name:-{{name}}</b></th>
+            <th class="center"><b>Amount:-{{totalAmount}}</b></th>
+
+          </tr>
+          <tr class="center">
+            <td class="center">
+              <p>Bus Name </p>
+              <p>Bus type </p>
+              <p>Journey Date</p>
+              <p>Arrival Station</p>
+              <p>Departure Station</p>
+              <p>Arrival Time</p>
+              <p>Departure Time </p>
+              <p>Number Of Tickets </p>
+              <p>Total Amount</p>
+            </td>
+            <td>
+              <p>{{busName}}</p>
+              <p>{{bustype}}</p>
+              <p>{{journeyDate| date: 'dd-MM-yyyy'}}</p>
+              <p>{{arrivalStation}}</p>
+              <p>{{departureStation}}</p>
+              <p>{{arrivalTime}}</p>
+              <p>{{departureTime}}</p>
+              <p>{{numberOfTickets}}</p>
+              <p><b>{{totalAmount}}</b></p>
+            </td>
+
+          </tr>
+
+        </thead>
+
+
+      </table>
+
+
     </div>
-    </div>
-    <div *ngIf = "invoice">
-
-
-        <div class="form-group"><br>
-
-            <div  id="htmlData">
-              <table class="center">
-                {{errorMessage}}
-                <thead class="center" >
-                  <tr style="margin-left: 300px;"><b>HMS Travels</b></tr>
-                  <tr>Koyambedu,Chennai-600044</tr>
-                  <tr>Contact No:043-789-344</tr>
-                </thead>
-                <thead >
-                  <tr>
-                    <th class="center"><b>Customer Name:-{{name}}</b></th>
-                    <th class="center"><b>Amount:-{{totalAmount}}</b></th>
-                    
-                  </tr>
-                  <tr class="center">
-                    <td class="center">
-                      <p>Bus Name </p>
-                      <p>Bus type </p>
-                      <p>Journey Date</p>
-                      <p>Arrival Station</p>
-                      <p>Departure Station</p>
-                      <p>Arrival Time</p>
-                      <p>Departure Time </p>
-                      <p>Number Of Tickets </p>
-                      <p>Total Amount</p>
-                    </td>
-                    <td>
-                      <p>{{busName}}</p>
-                      <p>{{bustype}}</p>
-                      <p>{{journeyDate| date: 'dd-MM-yyyy'}}</p>
-                      <p>{{arrivalStation}}</p>
-                      <p>{{departureStation}}</p>
-                      <p>{{arrivalTime}}</p>
-                      <p>{{departureTime}}</p>
-                      <p>{{numberOfTickets}}</p>
-                      <p><b>{{totalAmount}}</b></p>
-                    </td>
-  
-                  </tr>
-  
-                </thead>
-            
-
-              </table>
-
-             
-            </div>
-            <button class="btn btn-primary" (click)="openPDF()">Download Invoice</button>&nbsp; &nbsp;&nbsp; &nbsp;
-    </div>
+    <br>
+    <br>
+    <button style="margin-left: 600px;" class="btn btn-info" (click)="openPDF()">Download Invoice&nbsp;
+      &nbsp;</button>&nbsp; &nbsp;&nbsp; &nbsp;
+    <button style="margin-left: 0px;" class="btn btn-dark" (click)="exit()">&nbsp;&nbsp;Back</button>&nbsp; &nbsp;&nbsp;
+    &nbsp;
+    <br>
+    <br>
+  </div>

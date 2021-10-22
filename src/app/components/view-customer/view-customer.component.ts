@@ -102,5 +102,9 @@ export class ViewCustomerComponent implements OnInit {
 
     this.router.navigate(['admin'])
   }
+  view(cusId: number) {
+
+    this.router.navigate(['viewall', cusId])
+  }
 
 }

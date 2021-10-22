@@ -9,12 +9,15 @@ import { CustomerOperationsComponent } from './components/customer-operations/cu
 import { EditBusComponent } from './components/edit-bus/edit-bus.component';
 import { EditCustomerComponent } from './components/edit-customer/edit-customer.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { EditallBusComponent } from './components/editall-bus/editall-bus.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchBusComponent } from './components/search-bus/search-bus.component';
+import { TicketSearchComponent } from './components/ticket-search/ticket-search.component';
 import { ViewBookingComponent } from './components/view-booking/view-booking.component';
 import { ViewBusComponent } from './components/view-bus/view-bus.component';
 import { ViewCustomerComponent } from './components/view-customer/view-customer.component';
 import { ViewRouteComponent } from './components/view-route/view-route.component';
+import { ViewallComponent } from './components/viewall/viewall.component';
 import { ViewbookingsCustomerComponent } from './components/viewbookings-customer/viewbookings-customer.component';
 
 const routes: Routes = [
@@ -22,9 +25,11 @@ const routes: Routes = [
   {path: 'home', component:HomeComponent},
   {path:'routeadd', component:AddRouteComponent },
   {path:'view', component:ViewRouteComponent },
+  {path:'about', component:TicketSearchComponent },
   {path:'editroute/:routeId' , component:EditRouteComponent },
   
-  {path:'editbus/:busId' , component:EditBusComponent },
+  {path:'editbus', component:EditBusComponent },
+  {path:'editall/:busId',component:EditallBusComponent},
   {path:'viewbus' , component:ViewBusComponent },
   {path:'addbus' , component:AddBusComponent },
   {path:'search/:cusId' , component:SearchBusComponent },
@@ -36,7 +41,9 @@ const routes: Routes = [
   {path:'viewbook' , component:ViewBookingComponent },
   {path:'viewcusbook/:cusId' , component:ViewbookingsCustomerComponent },
   
+  {path:'viewall/:cusId' , component:ViewallComponent },
   {path:'admin', component:AdminDashboardComponent },
+  {path:"**",component:HomeComponent}
 ];
 
 @NgModule({

@@ -1,122 +1,47 @@
+<div>
+  <div class="container">
+    <form #userForm="ngForm" (ngSubmit)='editBus()' style="width: 420px;">
 
-<app-admin-navbar></app-admin-navbar>
-
-<div class="container">
-    <form novalidate [formGroup]="BusForm" (ngSubmit)="editBus()"  style="margin-left: 400px;width: 420px;">
-    
       <fieldset>
         <div class="form-group">
-        <input type="hidden" class="form-control" formControlName="id" id="id" readonly >
-     
-       
-    </div>
-        <div class="form-group">
-            <label><b>Bus Name :</b></label>
-            <input type="text" class="form-control" formControlName="name" required>
-            <div class="alert alert-danger" *ngIf="BusForm.get('name').hasError('required') && BusForm.get('routeName').dirty">
-                Bus Name is Required
-            </div>
-                <div class="alert alert-danger"
-                    *ngIf="BusForm.get('name').hasError('minlength') && BusForm.get('name').dirty">
-                    Bus name must be of 5 characters
-                </div>
-        </div>
-  
-        <div class="form-group">
-          <label>Bus Type</label>
-          <select class="form-control form-control-lg"   name="busType" formControlName="busType" ngModel required>
-           
-         
-            <option value="">{{busType}}</option>
-            <option>AC Sleeper </option>
-            <option>AC Sleeper Seater</option>
-            <option>Deluxe </option>
-            <option>Non-AC Sleeper</option>
-            <option>Ultra Deluxe</option>
-     
-        </select>
-          <div class="alert alert-danger"
-              *ngIf="BusForm.get('busType').hasError('busType') && BusForm.get('busType').dirty">
-              Bus Type is required
-          </div>
-  
-        </div>
-  
-          <div class="form-group">
-            <label>Route Name</label>
-            <select class="form-control form-control-lg"   name="routeName" formControlName="routeName"  required>
-           
-              <option value="">{{routeName}}</option>
-              <option *ngFor="let r of routes">{{r.routeName}} </option>
-              
-          </select>
-            <div class="alert alert-danger"
-                *ngIf="BusForm.get('routeName').hasError('routeName') && BusForm.get('routeName').dirty">
-                Bus Type is required
-            </div>
-          </div>
-  
-  
-  
-        
-          <div class="form-group">
-            <label><b>Number Of Seats :</b></label>
-            <input type="number" class="form-control" formControlName="numberOfSeats" required>
-            <div class="alert alert-danger" *ngIf="BusForm.get('numberOfSeats').hasError('required') &&
-            BusForm.get('numberOfSeats').dirty">
-            Number Of Seats  is Required
-          
-            </div>
+          <input type="hidden" class="form-control" name="id" [(ngModel)]="buses.id" readonly>
+
+
         </div>
         <div class="form-group">
-          <label><b>Journey Date :</b></label>
-          <div class="form-control">
-        <input matInput [matDatepicker]="picker" [min]="minDate"  placeholder="Choose a date" formControlName="date" required>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker ></mat-datepicker>
+          <label><b>Bus Name :</b></label>
+          <input type="text" class="form-control" [(ngModel)]="buses.name" name="name" required>
+
+
         </div>
-        <div class="alert alert-danger" *ngIf="BusForm.get('date').hasError('required') &&
-        BusForm.get('date').dirty">
-        Journey Date  is Required
-      
-        </div>
-  
-        </div>
+
+
+
+
+
+
         <div class="form-group">
           <label><b>Arrival Time :</b></label>
-          <input type="time" min="minDate" class="form-control" formControlName="arrivalTime" required>
-          <div class="alert alert-danger" *ngIf="BusForm.get('arrivalTime').hasError('required') &&
-          BusForm.get('arrivalTime').dirty">
-          Arrival Time   is Required
-        
-          </div>
-      </div>
-      <div class="form-group">
-        <label><b>Departure Time :</b></label>
-        <input type="time" min="minDate" class="form-control" formControlName="departureTime" required>
-        <div class="alert alert-danger" *ngIf="BusForm.get('departureTime').hasError('required') &&
-        BusForm.get('departureTime').dirty">
-        Departure Time   is Required
-      
+          <input type="time" min="minDate" class="form-control" [(ngModel)]="buses.arrivalTime" name="arrivalTime"
+            required>
+
         </div>
-    </div>
-    <div class="form-group">
-      <label><b>Bus Fare :</b></label>
-      <input type="number" class="form-control" formControlName="fare" required>
-      <div class="alert alert-danger" *ngIf="BusForm.get('fare').hasError('required') &&
-      BusForm.get('fare').dirty">
-      Bus Fare is Required
-    
+        <div class="form-group">
+          <label><b>Departure Time :</b></label>
+          <input type="time" min="minDate" class="form-control" name="departureTime" [(ngModel)]="buses.departureTime"
+            required>
+
+        </div>
+
+      </fieldset>
+      <br>
+      <br>
+
+      <div>
+        <button type="submit" class="btn btn-primary">Update</button> &nbsp; &nbsp;
+        <button class="btn btn-dark" (click)="back()">Back</button>
       </div>
-  </div>
-        </fieldset>
-        <br>
-        <br>
-  
-  <div>
-      <button type="submit" class="btn btn-primary">Submit</button> &nbsp; &nbsp;
-      <button class="btn btn-dark" (click)="back()">Back</button>
-    </div> 
     </form>
-  
+
   </div>
+</div>

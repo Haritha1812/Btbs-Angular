@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class EditCustomerComponent implements OnInit {
   cusId: number
+  hide: boolean
   successMessage: string
   password: string
   CustomerForm = new FormGroup({});
@@ -65,7 +66,7 @@ export class EditCustomerComponent implements OnInit {
         console.log("update customer called");
 
         this.toaster.success("Updated successfully");
-        this.router.navigate(['cusop', this.cusId])
+        this.router.navigate(['viewcus'])
         console.log("#######Customer updated successfully ");
       },
         error => {
@@ -79,7 +80,7 @@ export class EditCustomerComponent implements OnInit {
   back() {
 
 
-    this.router.navigate(['cusop', this.cusId])
+    this.router.navigate(['viewcua'])
   }
 
   home() {

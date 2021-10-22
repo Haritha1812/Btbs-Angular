@@ -52,6 +52,8 @@ export class AddRouteComponent implements OnInit {
             console.log("Route already exists");
             this.errorMessage = "Route with this from and to location already exists"
           }
+        },error=>{
+          this.toaster.error("Route with route name already exists")
         }
       )
   }
@@ -72,7 +74,8 @@ export class AddRouteComponent implements OnInit {
         },
         error => {
           console.log(error);
-          
+
+          this.toaster.error("Route with route name already exists")
 
         }
       );

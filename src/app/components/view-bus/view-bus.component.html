@@ -1,92 +1,90 @@
-
 <app-admin-navbar></app-admin-navbar>
 
 <br>
 <br>
+<span>
+  <button (click)="addbus()" class="btn btn-info">Add Bus</button>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+<h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 650px;">Bus Details</h2>
 
- <button (click)="addbus()"class="btn btn-info">Add Bus</button>&nbsp;&nbsp;&nbsp;&nbsp;
- <br>
+<div class="reglist">
+  <div class="search-hero" style="width: 500px; margin-left: 530px;">
 
- <h2 style="width: 500px; font-size: xx-large; font-style: italic; margin-left: 600px;">Bus Details</h2>
- 
-<div class="reglist">  
-  <div class="search-hero" style="width: 500px; margin-left: 550px;">
+    <input style="width: 500px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search"
+      [(ngModel)]="search" autocomplete="off" placeholder="&#xF002;Search by Bus Name or route or place">
 
-      <input style="width: 500px;" [ngClass]="['form-control','fa fa-search']" type="text" name="search" [(ngModel)]="search" 
-
-          autocomplete="off" placeholder="&#xF002;Search by Bus Name or route or place">
-
-    </div><br>
-    <div>
-        <table class="table table-striped" >
-          <thead>
-            <tr>
-                <th>Bus Id</th>
-                 <th>Bus Name</th>
-                <th>Bus Type</th>
-                <th>Number of Seats</th>
-                <th>Date</th>
-                <th>Departure Time</th>
-                <th>Arrival Time</th>
-                <th>Fare</th>
-                 <th>Route</th>
-                <th>Edit</th>
-                <th>Delete</th>
-          </tr>
-          </thead>
-          <tbody>
-          
-            <tr *ngFor="let b of buses|paginate:config|filter:search">
-                <td>
-                    {{b.id}}
-                  </td>
-                <td>
-                   {{b.name}}
-                 </td>
-                 <td>
-                     {{b.busType}}
-                 </td>
-             
-                 <td>
-                     {{b.numberOfSeats}}
-                 </td>
-                 <td>
-                    {{b.date| date: 'dd-MM-yyyy'}}
-                </td>
-                <td>
-                    {{b.departureTime}}
-                </td>
-                <td>
-                    {{b.arrivalTime}}
-                </td>
-                <td>
-                    {{b.fare}}
-                </td>
-                <td>
-                  {{b.route.routeName}}
-              </td>
-             
-                <td>
-       
-                    <button  class="btn btn-success" (click)="edit(b.id)">Edit</button>
-                </td>
-                 <td>
-       
-                    <button class ="btn btn-danger" (click)="alertConfirmation(b.id)">Delete</button>
-                </td>
-               </tr>
-          </tbody>
-        
-     
-      <br>
-    
-    <!-- </div> -->
-</table>
-<div style="margin-left: 600px;">
-  <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
   </div>
-<td>
-    <button  class="btn btn-primary" (click)="back()">Back</button>
-  </td>
-</div>
+
+  <button style="margin-left: 1500px;" class="btn btn-info" (click)="back()">Back</button>
+  <br>
+  <br>
+  <br>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Bus Name</th>
+          <th>Bus Type</th>
+          <th>Number of Seats</th>
+          <th>Date</th>
+          <th>Arrival Time</th>
+          <th>Departure Time</th>
+          <th>Fare</th>
+          <th>Route</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let b of buses|filter:search|paginate:config">
+
+          <td>
+            {{b.name}}
+          </td>
+          <td>
+            {{b.busType}}
+          </td>
+
+          <td>
+            {{b.numberOfSeats}}
+          </td>
+          <td>
+            {{b.date| date: 'dd-MM-yyyy'}}
+          </td>
+          <td>
+            {{b.arrivalTime}}
+          </td>
+          <td>
+            {{b.departureTime}}
+          </td>
+
+          <td>
+            {{b.fare}}
+          </td>
+          <td>
+            {{b.route.routeName}}
+          </td>
+
+          <td>
+
+            <button class="btn btn-success" (click)="edit(b)">Edit</button>
+          </td>
+          <td>
+
+            <button class="btn btn-danger" (click)="alertConfirmation(b.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+
+
+      <br>
+
+      <!-- </div> -->
+    </table>
+    <div style="margin-left: 600px;">
+      <pagination-controls style="margin-left: 550px;" (pageChange)="pageChanged($event)"></pagination-controls>
+    </div>
+
+  </div>
 </div>

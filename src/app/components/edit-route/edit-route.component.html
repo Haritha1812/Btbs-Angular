@@ -1,65 +1,65 @@
-
 <app-admin-navbar></app-admin-navbar>
 <div class="container">
-    <form novalidate [formGroup]="RouteForm" (ngSubmit)="editRoutes()"  style="margin-left: 400px;width: 420px;">
-    
-      <fieldset>
-       
-        <div class="form-group">
-            <input type="hidden" class="form-control" formControlName="routeId" id="routeId" [readonly]="routeId!=-1 ? true :false" >
-         
-           
-        </div>
-     
+  <form novalidate [formGroup]="RouteForm" (ngSubmit)="editRoutes()" style="margin-left: 400px;width: 420px;">
 
-        <div class="form-group">
-            <label><b>Route Name :</b></label>
-            <input type="text" class="form-control" formControlName="routeName" required>
-            <div class="alert alert-danger" *ngIf="RouteForm.get('routeName').hasError('required') && 
+    <fieldset>
+
+      <div class="form-group">
+        <input type="hidden" class="form-control" formControlName="routeId" id="routeId"
+          [readonly]="routeId!=-1 ? true :false">
+
+
+      </div>
+
+
+      <div class="form-group">
+        <label><b>Route Name :</b></label>
+        <input type="text" class="form-control" formControlName="routeName" required>
+        <div class="alert alert-danger" *ngIf="RouteForm.get('routeName').hasError('required') && 
               RouteForm.get('routeName').dirty">
-                Phone is Required
-            </div>
-            <div class="alert alert-danger" *ngIf="RouteForm.get('routeName').hasError('minlength') &&
+          Phone is Required
+        </div>
+        <div class="alert alert-danger" *ngIf="RouteForm.get('routeName').hasError('minlength') &&
             RouteForm.get('routeName').dirty">
-              Enter atleast 10 Numbers
-            </div>
+          Enter atleast 10 Numbers
         </div>
+      </div>
 
 
-        <div class="form-group">
-            <label><b>From Location :</b></label>
-            <input type="email" class="form-control" formControlName="fromLocation" required >
-            <div class="alert alert-danger" *ngIf="RouteForm.get('fromLocation').hasError('required') &&
+      <div class="form-group">
+        <label><b>From Location :</b></label>
+        <input type="email" class="form-control" formControlName="fromLocation" required>
+        <div class="alert alert-danger" *ngIf="RouteForm.get('fromLocation').hasError('required') &&
             RouteForm.get('fromLocation').dirty">
-            fromLocation is Required
-            </div>
+          fromLocation is Required
         </div>
+      </div>
 
-        
+
 
       <div class="form-group">
         <label><b>Route toLocation :</b></label>
         <input type="text" class="form-control" formControlName="toLocation" required>
         <div class="alert alert-danger" *ngIf="RouteForm.get('toLocation').hasError('required') &&
         RouteForm.get('toLocation').dirty">
-        Route experience is Required
+          Route experience is Required
         </div>
-    </div>
-
-    <div class="form-group">
-      <label><b>Route distance :</b></label>
-      <input type="number" class="form-control" formControlName="distance" required>
-      <div class="alert alert-danger" *ngIf="RouteForm.get('distance').hasError('required') &&
-      RouteForm.get('distance').dirty">
-      Route Salary is Required
       </div>
-    </div>
-   <br>
-   <br>
-   <div>
-      <button type="submit" class="btn btn-success">Edit</button> &nbsp; &nbsp;
-      <button class="btn btn-dark" (click)="back()">Back</button>
-  </div>
+
+      <div class="form-group">
+        <label><b>Route distance :</b></label>
+        <input type="number" class="form-control" formControlName="distance" required>
+        <div class="alert alert-danger" *ngIf="RouteForm.get('distance').hasError('required') &&
+      RouteForm.get('distance').dirty">
+          Route Salary is Required
+        </div>
+      </div>
+      <br>
+      <br>
+      <div>
+        <button type="submit" class="btn btn-success">Edit</button> &nbsp; &nbsp;
+        <button class="btn btn-dark" (click)="back()">Back</button>
+      </div>
     </fieldset>
-    </form>
+  </form>
 </div>

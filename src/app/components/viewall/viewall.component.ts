@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { BookTicket } from 'src/app/models/book-ticket';
 import { Passenger } from 'src/app/models/passenger';
 import { BookTicketService } from 'src/app/services/book-ticket.service';
@@ -13,20 +12,17 @@ import { SeatService } from 'src/app/services/seat.service';
 import { ToasterService } from 'src/app/services/toaster.service';
 
 
-
-
-
 @Component({
-  selector: 'app-view-booking',
-  templateUrl: './view-booking.component.html',
-  styleUrls: ['./view-booking.component.css']
+  selector: 'app-viewall',
+  templateUrl: './viewall.component.html',
+  styleUrls: ['./viewall.component.css']
 })
-export class ViewBookingComponent implements OnInit {
+export class ViewallComponent implements OnInit {
 
 
   constructor(public formBuilder: FormBuilder, public router: Router, public toaster: ToasterService, public activatedRoute: ActivatedRoute, public busService: BusService, public routeService: RouteService, public seatService: SeatService, public passengerService: PassengerService, public customerService: CustomerService, public bookService: BookTicketService) { }
   bookTickets: BookTicket[]
-
+  cusId: number
   booking: any[] = []
   bookings: BookTicket
   passengers: Passenger[]
@@ -36,54 +32,39 @@ export class ViewBookingComponent implements OnInit {
   config: any
   showpassenger: boolean
   ngOnInit(): void {
-    this.refresh()
-
-
-  }
-  refresh() {
-    this.bookService.getAllBookings()
+    this.cusId = this.activatedRoute.snapshot.params['cusId'];
+    console.log(this.cusId)
+    this.bookService.getByCusId(this.cusId)
       .subscribe(res => {
         console.log(res)
-        this.bookTickets = res.data
+        this.booking = res.data
+        this.view = true
+
         this.config = {
           itemsPerPage: 3,
-          currentPage: 1
+          currentPage: 1,
+
         };
 
-        var j = 0;
-        for (var i = 0; i < this.bookTickets.length; i++) {
-          if (this.bookTickets[i].bookingStatus == "Pending") {
-
-            this.booking[j++] = this.bookTickets[i]
-            console.log(this.booking)
-
-            this.view = true;
-
-          }
-
-        }
-
-        console.log(this.booking)
-
-        if (this.booking.length == 0) {
-
-          this.view = false
-          this.toaster.error("No request's found")
-
-        }
+        console.log(this.booking[0].bus.id)
+        console.log(this.cusId)
+        this.passengerService.getByBusidandcusid(this.booking[0].bus.id, this.cusId)
+          .subscribe(res => {
+            console.log(res);
+            this.passengers = res.data
+          })
       }, error => {
-
         this.toaster.error("No booking's found")
+        this.router.navigate(['viewcus'])
       }
+
       )
   }
+
   pageChanged(event: any) {
     this.config.currentPage = event;
   }
 
-  viewPassenger() {
-
-  }
   viewDetails(b: BookTicket) {
     this.viewid = true
     this.view = false
@@ -103,32 +84,12 @@ export class ViewBookingComponent implements OnInit {
 
   backadmin() {
 
-    this.router.navigate(['admin'])
+    this.router.navigate(['viewcus'])
   }
   back() {
     this.view = true
     this.viewid = false
     this.router.navigate(['viewbook'])
-  }
-  updateStatus(id: number, bid: number, cid: number) {
-    console.log(id)
-    console.log(bid)
-    console.log(cid)
-    this.bookService.updateStatus(id, bid, cid)
-      .subscribe(res => {
-        console.log(res)
-        console.log("#######Booking updated successfully ");
-        this.refresh();
-        this.toaster.success('Customer Booking approved!!!');
-        this.reloadComponent();
-        this.view = true
-      },
-        error => {
-
-          console.log(error)
-
-        }
-      )
   }
 
 
@@ -140,27 +101,6 @@ export class ViewBookingComponent implements OnInit {
   viewPass() {
     this.showpassenger = true;
   }
-  delete(id: number) {
-    this.bookService.deleteticket(id).subscribe(res => {
-      console.log(res);
-
-      this.toaster.info("Booking for booking id " + id + " has been rejected");
-      this.refresh(); this.reloadComponent();
-    }, error => {
-      this.toaster.error("Error in deleting tickets");
-      this.reloadComponent();
-    });
-
-  }
-  reloadComponent() {
 
 
-
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-
-    this.router.onSameUrlNavigation = 'reload';
-
-    this.router.navigate(['viewbook']);
-
-  }
 }
